@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./button";
 
 function Table({
@@ -60,8 +60,8 @@ function TableHead({ className, sticky, ...props }: ITableHeadProps) {
             data-slot="table-head"
             className={cn(
                 "border-b text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap",
-                sticky === "left" && "sticky top-0 left-0 bg-white border-r",
-                sticky === "right" && "sticky top-0 right-0 bg-white border-l",
+                sticky === "left" && "sticky top-0 left-0 bg-white",
+                sticky === "right" && "sticky top-0 right-0 bg-white",
                 className
             )}
             {...props}
@@ -79,8 +79,8 @@ function TableCell({ className, sticky, ...props }: ITableCellProps) {
             data-slot="table-cell"
             className={cn(
                 "p-2 align-middle whitespace-nowrap",
-                sticky === "left" && "sticky top-0 left-0 bg-white border-r",
-                sticky === "right" && "sticky top-0 right-0 bg-white border-l",
+                sticky === "left" && "sticky top-0 left-0 bg-white",
+                sticky === "right" && "sticky top-0 right-0 bg-white",
                 className
             )}
             {...props}
@@ -108,7 +108,7 @@ function TableNavigation({ className, ...props }: React.ComponentProps<"div">) {
                     <ChevronLeft />
                 </Button>
                 <Button variant="outline">
-                    <ChevronLeft className="rotate-180" />
+                    <ChevronRight />
                 </Button>
             </div>
         </div>

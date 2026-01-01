@@ -1,45 +1,77 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
+import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
+import { ChevronRight, Menu, Smile } from "lucide-react";
+import { useMemo } from "react";
+import { TanstackTable } from "./components/organisms/tanstack-table/tanstack-table";
 import { Badge } from "./components/ui/badge";
+import { Button } from "./components/ui/button";
+import { generateMockInvoices, type IInvoice } from "./mock/mock-data";
 
 function App() {
+    const { accessor, display } = createColumnHelper<IInvoice>();
+
+    const columns = useMemo(
+        () => [
+            accessor("id", {
+                cell: ({ getValue }) => `#${getValue()}`,
+                header: "Invoice",
+                id: "id"
+            }),
+            accessor("status", {
+                cell: ({ getValue }) => getValue(),
+                header: "Status",
+                id: "status"
+            }),
+            accessor("method", {
+                cell: ({ getValue }) => <Badge variant="outline">{getValue()}</Badge>,
+                header: "Method",
+                id: "method"
+            }),
+            accessor("amount", {
+                cell: ({ getValue }) => `$${getValue().toFixed(2)}`,
+                header: "Amount",
+                id: "amount"
+            }),
+            display({
+                id: "actions",
+                enableResizing: false,
+                header: () => (
+                    <div className="text-right">
+                        <Button variant="ghost">
+                            <Menu />
+                        </Button>
+                    </div>
+                ),
+                cell: () => (
+                    <div className="text-right">
+                        <Button variant="outline">
+                            <ChevronRight />
+                        </Button>
+                    </div>
+                )
+            })
+        ],
+        []
+    );
+
     return (
         <div className="flex gap-12 p-4">
-            <Table
-                id="invoices-table"
-                containerProps={{
-                    className: "border",
-                    children: <TableNavigation aria-label="Table controls" aria-controls="invoices-table" />
+            <TanstackTable
+                options={{
+                    data: generateMockInvoices(10),
+                    columns,
+                    getCoreRowModel: getCoreRowModel(),
+                    columnResizeMode: "onChange",
+                    defaultColumn: {
+                        minSize: 150,
+                        maxSize: 800
+                    }
                 }}
-            >
-                <TableHeader>
-                    <TableRow>
-                        <TableHead sticky="left">Invoice</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Method</TableHead>
-                        <TableHead sticky="right">Amount</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <TableRow>
-                        <TableCell sticky="left">#123</TableCell>
-                        <TableCell>Paid leorme Lorem ipsum dolor sit amet, consectetur adipisicing elit.</TableCell>
-                        <TableCell>
-                            <Badge variant="outline">Credit Card</Badge>
-                        </TableCell>
-                        <TableCell sticky="right">$250.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell sticky="left">#124</TableCell>
-                        <TableCell>Dolor sit amet, consectetur adipisicing elit.</TableCell>
-                        <TableCell>
-                            <Badge variant="outline">Cash</Badge>
-                        </TableCell>
-                        <TableCell sticky="right">$210.00</TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                id="invoices-table"
+            />
 
-            <div className="border bg-teal-300 rounded-lg p-4 h-24 w-24"></div>
+            <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4 h-24 w-24">
+                <Smile className="text-teal-600" size={48} />
+            </div>
         </div>
     );
 }
