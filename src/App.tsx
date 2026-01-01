@@ -1,44 +1,46 @@
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow
-} from "@/components/ui/table/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
+import { Badge } from "./components/ui/badge";
 
 function App() {
     return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-25 sticky top-0 left-0 bg-white border-r">Invoice</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Method</TableHead>
-                    <TableHead className="text-right sticky top-0 right-0 bg-white border-l">Amount</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableCell className="font-medium sticky top-0 left-0 bg-white border-r">
-                        Lorem ipsum dolor sit ameaerat tenetur nihil eveniet natus aut saepe suscipit modi assumenda
-                        magni commodi iste.
-                    </TableCell>
-                    <TableCell>Paid leorme Lorem ipsum dolor sit amet, consectetur adipisicing elit.</TableCell>
-                    <TableCell>Credit Card</TableCell>
-                    <TableCell className="text-right sticky top-0 right-0 bg-white border-l">$250.00</TableCell>
-                </TableRow>
-            </TableBody>
-            <TableFooter>
-                <TableRow>
-                    <TableCell>Total</TableCell>
-                    <TableCell />
-                    <TableCell />
-                    <TableCell className="text-right">$250.00</TableCell>
-                </TableRow>
-            </TableFooter>
-        </Table>
+        <div className="flex gap-12 p-4">
+            <Table
+                id="invoices-table"
+                containerProps={{
+                    className: "border",
+                    children: <TableNavigation aria-label="Table controls" aria-controls="invoices-table" />
+                }}
+            >
+                <TableHeader>
+                    <TableRow>
+                        <TableHead sticky="left">Invoice</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Method</TableHead>
+                        <TableHead sticky="right">Amount</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow>
+                        <TableCell sticky="left">#123</TableCell>
+                        <TableCell>Paid leorme Lorem ipsum dolor sit amet, consectetur adipisicing elit.</TableCell>
+                        <TableCell>
+                            <Badge variant="outline">Credit Card</Badge>
+                        </TableCell>
+                        <TableCell sticky="right">$250.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell sticky="left">#124</TableCell>
+                        <TableCell>Dolor sit amet, consectetur adipisicing elit.</TableCell>
+                        <TableCell>
+                            <Badge variant="outline">Cash</Badge>
+                        </TableCell>
+                        <TableCell sticky="right">$210.00</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+
+            <div className="border bg-teal-300 rounded-lg p-4 h-24 w-24"></div>
+        </div>
     );
 }
 
