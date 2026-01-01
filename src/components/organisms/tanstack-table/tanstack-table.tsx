@@ -1,31 +1,19 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { flexRender, useReactTable, type TableOptions } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { flexRender, type TableOptions } from "@tanstack/react-table";
+import { useTanstackTable } from "./hooks/use-tanstack-table";
 
-function TanstackTable<T>({
-    options,
-    id,
-    stickyLeft = true,
-    stickyRight = true
-}: {
+export interface ITanstackTableProps<T> {
     options: TableOptions<T>;
     id: string;
     stickyLeft?: boolean;
     stickyRight?: boolean;
-}) {
-    const table = useReactTable(options);
+}
 
-    const columnSizeVars = useMemo(() => {
-        const headers = table.getFlatHeaders();
-        const colSizes: { [key: string]: number } = {};
-        for (let i = 0; i < headers.length; i++) {
-            const header = headers[i]!;
-            colSizes[`--header-${header.id}-size`] = header.getSize();
-            colSizes[`--col-${header.column.id}-size`] = header.column.getSize();
-        }
-        return colSizes;
-    }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
+function TanstackTable<T>({ options, id, stickyLeft = true, stickyRight = true }: ITanstackTableProps<T>) {
+    // @ts-expect-error TODO TODO TODO TODO TODO TODO TODO
+    const { columnVisibility, setColumnVisibility, columnOrder, setColumnOrder, table, columnSizeVars } =
+        useTanstackTable(options);
 
     return (
         <Table
@@ -33,7 +21,18 @@ function TanstackTable<T>({
             containerProps={{
                 style: { ...columnSizeVars },
                 className: "border",
-                children: <TableNavigation aria-label="Table controls" aria-controls={id} />
+                children: (
+                    <TableNavigation
+                        totalItems={options.data.length}
+                        totalPages={5}
+                        currentPage={1}
+                        onPageChange={() => {
+                            // TODO: pages
+                        }}
+                        aria-label="Table controls"
+                        aria-controls={id}
+                    />
+                )
             }}
         >
             <TableHeader>

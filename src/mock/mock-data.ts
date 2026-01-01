@@ -32,7 +32,7 @@ export const MOCK_INVOICES: IInvoice[] = [
     }
 ];
 
-export const generateMockInvoices = (count = 1000): IInvoice[] =>
+export const generateMockInvoices = (count = 10): IInvoice[] =>
     Array.from({ length: count }, (_, index) => ({
         id: 1000 + index,
         status: ["Paid", "Pending", "Overdue"][Math.floor(Math.random() * 3)],

@@ -94,20 +94,38 @@ function TableCaption({ className, ...props }: React.ComponentProps<"caption">) 
     );
 }
 
-function TableNavigation({ className, ...props }: React.ComponentProps<"div">) {
+function TableNavigation({
+    className,
+    totalItems = 1,
+    totalPages = 1,
+    currentPage = 1,
+    onPageChange = () => {},
+    ...props
+}: React.ComponentProps<"div"> & {
+    totalItems?: number;
+    totalPages?: number;
+    currentPage?: number;
+    onPageChange?: (page: number) => void;
+}) {
     return (
         <div
             role="region"
             className={cn("sticky flex items-center flex-wrap gap-2 left-0 justify-between p-2 border-t", className)}
             {...props}
         >
-            <span>Total items: 1</span>
+            <span>Total items: {totalItems}</span>
             <div className="flex items-center gap-2">
-                <span>Page: 1 of 5</span>
-                <Button variant="outline">
+                <span>
+                    Page: {currentPage} of {totalPages}
+                </span>
+                <Button variant="outline" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage <= 1}>
                     <ChevronLeft />
                 </Button>
-                <Button variant="outline">
+                <Button
+                    variant="outline"
+                    onClick={() => onPageChange(currentPage + 1)}
+                    disabled={currentPage >= totalPages}
+                >
                     <ChevronRight />
                 </Button>
             </div>

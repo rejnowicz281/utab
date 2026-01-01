@@ -1,9 +1,11 @@
 import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
 import { ChevronRight, Menu, Smile } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { TanstackTable } from "./components/organisms/tanstack-table/tanstack-table";
 import { Badge } from "./components/ui/badge";
 import { Button } from "./components/ui/button";
+import { Input } from "./components/ui/input";
+import { Label } from "./components/ui/label";
 import { generateMockInvoices, type IInvoice } from "./mock/mock-data";
 
 function App() {
@@ -53,21 +55,35 @@ function App() {
         []
     );
 
-    return (
-        <div className="flex gap-12 p-4">
-            <TanstackTable
-                options={{
-                    data: generateMockInvoices(100),
-                    columns,
-                    getCoreRowModel: getCoreRowModel(),
-                    columnResizeMode: "onChange",
-                    defaultColumn: { minSize: 150, maxSize: 800 }
-                }}
-                id="invoices-table"
-            />
+    const [mockInvoicesCount, setMockInvoicesCount] = useState<number | undefined>(10);
 
-            <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4 h-24 w-24">
-                <Smile className="text-teal-600" size={48} />
+    return (
+        <div className="flex flex-col gap-6 p-4">
+            <div className="flex flex-col gap-2">
+                <Label htmlFor="mock-invoices-count">Number of Mock Invoices:</Label>
+                <Input
+                    id="mock-invoices-count"
+                    placeholder="Mock invoices count (default: 10)"
+                    type="number"
+                    value={mockInvoicesCount}
+                    onChange={(e) => setMockInvoicesCount(e.target.value ? Number(e.target.value) : undefined)}
+                />
+            </div>
+            <div className="flex gap-12">
+                <TanstackTable
+                    options={{
+                        data: generateMockInvoices(mockInvoicesCount),
+                        columns,
+                        getCoreRowModel: getCoreRowModel(),
+                        columnResizeMode: "onChange",
+                        defaultColumn: { minSize: 150, maxSize: 800 }
+                    }}
+                    id="invoices-table"
+                />
+
+                <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4 h-24 w-24">
+                    <Smile className="text-teal-600" size={48} />
+                </div>
             </div>
         </div>
     );
