@@ -1,21 +1,19 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { flexRender, useReactTable, type Row, type TableOptions } from "@tanstack/react-table";
+import { flexRender, type Row, type Table as TableType } from "@tanstack/react-table";
 import { memo, useMemo } from "react";
 
 function TanstackTable<T>({
-    options,
+    table,
     id,
     stickyLeft = true,
     stickyRight = true
 }: {
-    options: TableOptions<T>;
+    table: TableType<T>;
     id: string;
     stickyLeft?: boolean;
     stickyRight?: boolean;
 }) {
-    const table = useReactTable(options);
-
     const columnSizeVars = useMemo(() => {
         const headers = table.getFlatHeaders();
         const colSizes: { [key: string]: number } = {};
