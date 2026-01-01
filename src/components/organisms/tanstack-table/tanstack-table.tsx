@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { flexRender, useReactTable, type TableOptions } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { flexRender, useReactTable, type Row, type TableOptions } from "@tanstack/react-table";
+import { memo, useMemo } from "react";
 
 function TanstackTable<T>({
     options,
@@ -68,31 +68,49 @@ function TanstackTable<T>({
                     </TableRow>
                 ))}
             </TableHeader>
-            <TableBody>
-                {table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id}>
-                        {row.getVisibleCells().map((cell, idx) => (
-                            <TableCell
-                                style={{
-                                    width: `calc(var(--col-${cell.column.id}-size) * 1px)`
-                                }}
-                                sticky={
-                                    stickyLeft && idx === 0
-                                        ? "left"
-                                        : stickyRight && idx === row.getVisibleCells().length - 1
-                                        ? "right"
-                                        : undefined
-                                }
-                                key={cell.id}
-                            >
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
-            </TableBody>
+            <TanstackTableBody rows={table.getRowModel().rows} stickyLeft={stickyLeft} stickyRight={stickyRight} />
         </Table>
     );
 }
+
+function TanstackTableBody<T>({
+    rows,
+    stickyLeft,
+    stickyRight
+}: {
+    rows: Row<T>[];
+    stickyLeft?: boolean;
+    stickyRight?: boolean;
+}) {
+    return (
+        <TableBody>
+            {rows.map((row) => (
+                <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell, idx) => (
+                        <TableCell
+                            key={cell.id}
+                            style={{
+                                width: `calc(var(--col-${cell.column.id}-size) * 1px)`
+                            }}
+                            sticky={
+                                stickyLeft && idx === 0
+                                    ? "left"
+                                    : stickyRight && idx === row.getVisibleCells().length - 1
+                                    ? "right"
+                                    : undefined
+                            }
+                        >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                    ))}
+                </TableRow>
+            ))}
+        </TableBody>
+    );
+}
+// @ts-expect-error Memo. Not sure if needed. With 100 rows seems fine either way.
+const MemoizedTableBody = memo(TanstackTableBody, (prev, next) => {
+    return prev.rows === next.rows;
+});
 
 export { TanstackTable };

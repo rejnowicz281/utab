@@ -57,7 +57,7 @@ function App() {
         <div className="flex gap-12 p-4">
             <TanstackTable
                 options={{
-                    data: generateMockInvoices(10),
+                    data: generateMockInvoices(100),
                     columns,
                     getCoreRowModel: getCoreRowModel(),
                     columnResizeMode: "onChange",
