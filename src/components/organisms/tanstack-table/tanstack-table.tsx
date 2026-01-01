@@ -49,14 +49,13 @@ function TanstackTable<T>({
                                         ? "right"
                                         : undefined
                                 }
-                                className="relative"
                                 key={header.id}
                             >
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                                 {header.column.columnDef.enableResizing !== false ? (
                                     <div
                                         className={cn(
-                                            "w-1 absolute h-[50%] rounded-full ml-3 inline-block cursor-e-resize",
+                                            "w-1 absolute h-4.5 rounded-full ml-3 inline-block cursor-e-resize",
                                             header.column.getIsResizing() ? "bg-gray-500" : "bg-black"
                                         )}
                                         onDoubleClick={header.column.resetSize}
