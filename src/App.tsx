@@ -1,4 +1,4 @@
-import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
 import { ChevronRight, Menu, Smile } from "lucide-react";
 import { useMemo } from "react";
 import { TanstackTable } from "./components/organisms/tanstack-table/tanstack-table";
@@ -56,16 +56,13 @@ function App() {
     return (
         <div className="flex gap-12 p-4">
             <TanstackTable
-                table={useReactTable({
+                options={{
                     data: generateMockInvoices(100),
                     columns,
                     getCoreRowModel: getCoreRowModel(),
                     columnResizeMode: "onChange",
-                    defaultColumn: {
-                        minSize: 150,
-                        maxSize: 800
-                    }
-                })}
+                    defaultColumn: { minSize: 150, maxSize: 800 }
+                }}
                 id="invoices-table"
             />
 
