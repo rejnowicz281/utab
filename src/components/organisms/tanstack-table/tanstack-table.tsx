@@ -1,19 +1,22 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { flexRender, type TableOptions } from "@tanstack/react-table";
-import { useTanstackTable } from "./hooks/use-tanstack-table";
+import { flexRender } from "@tanstack/react-table";
+import {
+    TanstackTableProvider,
+    type ITanstackTableProps
+} from "./providers/tanstack-table-provider/tanstack-table-provider";
+import { useTanstackTableContext } from "./providers/tanstack-table-provider/tanstack-table-provider.hooks";
 
-export interface ITanstackTableProps<T> {
-    options: TableOptions<T>;
-    id: string;
-    stickyLeft?: boolean;
-    stickyRight?: boolean;
+function TanstackTable<T>(props: ITanstackTableProps<T>) {
+    return (
+        <TanstackTableProvider {...props}>
+            <TanstackTableMain />
+        </TanstackTableProvider>
+    );
 }
 
-function TanstackTable<T>({ options, id, stickyLeft = true, stickyRight = true }: ITanstackTableProps<T>) {
-    // @ts-expect-error TODO TODO TODO TODO TODO TODO TODO
-    const { columnVisibility, setColumnVisibility, columnOrder, setColumnOrder, table, columnSizeVars } =
-        useTanstackTable(options);
+function TanstackTableMain() {
+    const { table, columnSizeVars, id, options, stickyLeft, stickyRight } = useTanstackTableContext();
 
     return (
         <Table

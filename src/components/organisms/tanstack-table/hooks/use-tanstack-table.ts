@@ -1,9 +1,29 @@
-import { useReactTable, type ColumnOrderState, type TableOptions } from "@tanstack/react-table";
+import {
+    useReactTable,
+    type ColumnOrderState,
+    type RowData,
+    type TableOptions,
+    type VisibilityState
+} from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
+export interface ExtendedColumnMeta<_TData, _TValue> {
+    hiddenByDefault?: boolean;
+}
+
+declare module "@tanstack/react-table" {
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface ColumnMeta<TData extends RowData, TValue> extends ExtendedColumnMeta<TData, TValue> {}
+}
+
 function useTanstackTable<T>(options: TableOptions<T>) {
-    const [columnVisibility, setColumnVisibility] = useState({});
-    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        options.columns.reduce((acc, col) => {
+            acc[String(col.id)] = !col.meta?.hiddenByDefault;
+            return acc;
+        }, {} as VisibilityState)
+    );
+    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(options.columns.map((col) => String(col.id)));
 
     const { state: optionsState, ..._options } = options;
 
@@ -11,7 +31,8 @@ function useTanstackTable<T>(options: TableOptions<T>) {
         ..._options,
         state: {
             columnVisibility,
-            columnOrder
+            columnOrder,
+            ...optionsState
         },
         onColumnVisibilityChange: setColumnVisibility,
         onColumnOrderChange: setColumnOrder

@@ -1,6 +1,7 @@
 import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
-import { ChevronRight, Menu, Smile } from "lucide-react";
+import { ChevronRight, Smile } from "lucide-react";
 import { useMemo, useState } from "react";
+import { TanstackTableReorderDialog } from "./components/organisms/tanstack-table/components/reorder/reorder.dialog";
 import { TanstackTable } from "./components/organisms/tanstack-table/tanstack-table";
 import { Badge } from "./components/ui/badge";
 import { Button } from "./components/ui/button";
@@ -16,31 +17,29 @@ function App() {
             accessor("id", {
                 cell: ({ getValue }) => `#${getValue()}`,
                 header: "Invoice",
-                id: "id"
+                id: "Invoice"
             }),
             accessor("status", {
                 cell: ({ getValue }) => getValue(),
                 header: "Status",
-                id: "status"
+                id: "Status"
             }),
             accessor("method", {
                 cell: ({ getValue }) => <Badge variant="outline">{getValue()}</Badge>,
                 header: "Method",
-                id: "method"
+                id: "Method"
             }),
             accessor("amount", {
                 cell: ({ getValue }) => `$${getValue().toFixed(2)}`,
                 header: "Amount",
-                id: "amount"
+                id: "Amount"
             }),
             display({
                 id: "actions",
                 enableResizing: false,
                 header: () => (
                     <div className="text-right">
-                        <Button variant="ghost">
-                            <Menu />
-                        </Button>
+                        <TanstackTableReorderDialog />
                     </div>
                 ),
                 cell: () => (
