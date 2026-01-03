@@ -9,6 +9,7 @@ import { useMemo, useState } from "react";
 
 export interface ExtendedColumnMeta<_TData, _TValue> {
     hiddenByDefault?: boolean;
+    cellAlign?: "left" | "right";
 }
 
 declare module "@tanstack/react-table" {

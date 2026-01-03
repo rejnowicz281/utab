@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import { flexRender } from "@tanstack/react-table";
+import { NullableResizer } from "./components/resizer/resizer";
 import {
     TanstackTableProvider,
     type ITanstackTableProps
@@ -52,19 +52,12 @@ function TanstackTableMain() {
                                         : undefined
                                 }
                                 key={header.id}
+                                className={
+                                    header.column.columnDef.meta?.cellAlign === "right" ? "text-right" : undefined
+                                }
                             >
                                 {flexRender(header.column.columnDef.header, header.getContext())}
-                                {header.column.columnDef.enableResizing !== false ? (
-                                    <div
-                                        className={cn(
-                                            "w-1 absolute h-4.5 rounded-full ml-3 inline-block cursor-e-resize",
-                                            header.column.getIsResizing() ? "bg-gray-500" : "bg-black"
-                                        )}
-                                        onDoubleClick={header.column.resetSize}
-                                        onMouseDown={header.getResizeHandler()}
-                                        onTouchStart={header.getResizeHandler()}
-                                    />
-                                ) : null}
+                                <NullableResizer header={header} />
                             </TableHead>
                         ))}
                     </TableRow>
@@ -86,6 +79,7 @@ function TanstackTableMain() {
                                         ? "right"
                                         : undefined
                                 }
+                                className={cell.column.columnDef.meta?.cellAlign === "right" ? "text-right" : undefined}
                             >
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </TableCell>

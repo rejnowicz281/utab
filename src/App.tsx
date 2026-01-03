@@ -32,7 +32,10 @@ function App() {
             accessor("amount", {
                 cell: ({ getValue }) => `$${getValue().toFixed(2)}`,
                 header: "Amount",
-                id: "Amount"
+                id: "Amount",
+                meta: {
+                    cellAlign: "right"
+                }
             }),
             display({
                 id: "actions",
