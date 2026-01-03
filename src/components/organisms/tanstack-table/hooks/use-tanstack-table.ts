@@ -1,3 +1,4 @@
+import { useLocalState } from "@/lib/hooks";
 import {
     useReactTable,
     type ColumnOrderState,
@@ -5,7 +6,7 @@ import {
     type TableOptions,
     type VisibilityState
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export interface ExtendedColumnMeta<_TData, _TValue> {
     hiddenByDefault?: boolean;
@@ -17,14 +18,18 @@ declare module "@tanstack/react-table" {
     interface ColumnMeta<TData extends RowData, TValue> extends ExtendedColumnMeta<TData, TValue> {}
 }
 
-function useTanstackTable<T>(options: TableOptions<T>) {
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+function useTanstackTable<T>(options: TableOptions<T>, id: string) {
+    const [columnVisibility, setColumnVisibility] = useLocalState<VisibilityState>(
+        "tanstack-table-column-visibility-" + id,
         options.columns.reduce((acc, col) => {
             acc[String(col.id)] = !col.meta?.hiddenByDefault;
             return acc;
         }, {} as VisibilityState)
     );
-    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(options.columns.map((col) => String(col.id)));
+    const [columnOrder, setColumnOrder] = useLocalState<ColumnOrderState>(
+        "tanstack-table-column-order-" + id,
+        options.columns.map((col) => String(col.id))
+    );
 
     const { state: optionsState, ..._options } = options;
 
