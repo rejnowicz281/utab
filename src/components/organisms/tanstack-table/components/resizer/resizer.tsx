@@ -10,7 +10,7 @@ export function Resizer({ header, ...props }: IResizerProps) {
     return (
         <div
             className={cn(
-                "ml-3 rounded-full inline-block cursor-e-resize",
+                "ml-3 w-1 rounded-full inline-block cursor-e-resize",
                 header.column.getIsResizing() ? "bg-gray-500" : "bg-black"
             )}
             onDoubleClick={header.column.resetSize}

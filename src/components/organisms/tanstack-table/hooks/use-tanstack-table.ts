@@ -6,7 +6,7 @@ import {
     type TableOptions,
     type VisibilityState
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 export interface ExtendedColumnMeta<_TData, _TValue> {
     hiddenByDefault?: boolean;
@@ -19,16 +19,24 @@ declare module "@tanstack/react-table" {
 }
 
 function useTanstackTable<T>(options: TableOptions<T>, id: string) {
-    const [columnVisibility, setColumnVisibility] = useLocalState<VisibilityState>(
-        "tanstack-table-column-visibility-" + id,
-        options.columns.reduce((acc, col) => {
+    const defaultColumnVisibility: VisibilityState = useMemo(() => {
+        return options.columns.reduce((acc, col) => {
             acc[String(col.id)] = !col.meta?.hiddenByDefault;
             return acc;
-        }, {} as VisibilityState)
+        }, {} as VisibilityState);
+    }, [options.columns]);
+
+    const defaultColumnOrder: ColumnOrderState = useMemo(() => {
+        return options.columns.map((col) => String(col.id));
+    }, [options.columns]);
+
+    const [columnVisibility, setColumnVisibility] = useLocalState<VisibilityState>(
+        "tanstack-table-column-visibility-" + id,
+        defaultColumnVisibility
     );
     const [columnOrder, setColumnOrder] = useLocalState<ColumnOrderState>(
         "tanstack-table-column-order-" + id,
-        options.columns.map((col) => String(col.id))
+        defaultColumnOrder
     );
 
     const { state: optionsState, ..._options } = options;
@@ -54,6 +62,13 @@ function useTanstackTable<T>(options: TableOptions<T>, id: string) {
         }
         return colSizes;
     }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
+
+    useEffect(() => {
+        if (Object.keys(columnVisibility).length !== Object.keys(defaultColumnVisibility).length)
+            setColumnVisibility(defaultColumnVisibility);
+
+        if (Object.keys(columnOrder).length !== defaultColumnOrder.length) setColumnOrder(defaultColumnOrder);
+    }, [columnVisibility, columnOrder, table]);
 
     return { columnVisibility, setColumnVisibility, columnOrder, setColumnOrder, table, columnSizeVars };
 }

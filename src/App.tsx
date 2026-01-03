@@ -19,24 +19,64 @@ function App() {
                 header: "Invoice",
                 id: "Invoice"
             }),
-            accessor("status", {
+
+            accessor("client", {
                 cell: ({ getValue }) => getValue(),
+                header: "Client",
+                id: "Client"
+            }),
+
+            accessor("status", {
+                cell: ({ getValue }) => <Badge variant="secondary">{getValue()}</Badge>,
                 header: "Status",
                 id: "Status"
             }),
+
             accessor("method", {
                 cell: ({ getValue }) => <Badge variant="outline">{getValue()}</Badge>,
                 header: "Method",
                 id: "Method"
             }),
+
+            accessor("date", {
+                cell: ({ getValue }) => new Date(getValue()).toLocaleDateString(),
+                header: "Date",
+                id: "Date"
+            }),
+
+            accessor("dueDate", {
+                cell: ({ getValue }) => new Date(getValue()).toLocaleDateString(),
+                header: "Due",
+                id: "Due"
+            }),
+
             accessor("amount", {
-                cell: ({ getValue }) => `$${getValue().toFixed(2)}`,
+                cell: ({ row }) => {
+                    const { amount, currency } = row.original;
+                    return `${currency} ${amount.toFixed(2)}`;
+                },
                 header: "Amount",
                 id: "Amount",
                 meta: {
                     cellAlign: "right"
                 }
             }),
+
+            accessor("taxAmount", {
+                cell: ({ getValue }) => getValue().toFixed(2),
+                header: "Tax",
+                id: "Tax",
+                meta: {
+                    cellAlign: "right"
+                }
+            }),
+
+            accessor("referenceNumber", {
+                cell: ({ getValue }) => getValue(),
+                header: "Ref",
+                id: "Ref"
+            }),
+
             display({
                 id: "actions",
                 enableResizing: false,
@@ -47,7 +87,7 @@ function App() {
                 ),
                 cell: () => (
                     <div className="text-right">
-                        <Button variant="outline">
+                        <Button variant="outline" size="icon">
                             <ChevronRight />
                         </Button>
                     </div>
