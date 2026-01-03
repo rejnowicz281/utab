@@ -16,7 +16,7 @@ export const useTanstackTableContext = () => {
 
 export function useTanstackTableProvider<T>(props: ITanstackTableProps<T>) {
     // Could be memoized
-    const value = useTanstackTable(props.options, props.id);
+    const value = useTanstackTable(props.options, props.id, props.tableVersion || 1);
 
     return {
         ...value,

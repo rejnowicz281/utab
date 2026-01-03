@@ -6,7 +6,7 @@ import {
     type TableOptions,
     type VisibilityState
 } from "@tanstack/react-table";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 export interface ExtendedColumnMeta<_TData, _TValue> {
     hiddenByDefault?: boolean;
@@ -18,26 +18,9 @@ declare module "@tanstack/react-table" {
     interface ColumnMeta<TData extends RowData, TValue> extends ExtendedColumnMeta<TData, TValue> {}
 }
 
-function useTanstackTable<T>(options: TableOptions<T>, id: string) {
-    const defaultColumnVisibility: VisibilityState = useMemo(() => {
-        return options.columns.reduce((acc, col) => {
-            acc[String(col.id)] = !col.meta?.hiddenByDefault;
-            return acc;
-        }, {} as VisibilityState);
-    }, [options.columns]);
-
-    const defaultColumnOrder: ColumnOrderState = useMemo(() => {
-        return options.columns.map((col) => String(col.id));
-    }, [options.columns]);
-
-    const [columnVisibility, setColumnVisibility] = useLocalState<VisibilityState>(
-        "tanstack-table-column-visibility-" + id,
-        defaultColumnVisibility
-    );
-    const [columnOrder, setColumnOrder] = useLocalState<ColumnOrderState>(
-        "tanstack-table-column-order-" + id,
-        defaultColumnOrder
-    );
+function useTanstackTable<T>(options: TableOptions<T>, id: string, tableVersion: number) {
+    const [columnOrder, setColumnOrder] = useColumnOrderState(id, tableVersion, options);
+    const [columnVisibility, setColumnVisibility] = useColumnVisibilityState(id, tableVersion, options);
 
     const { state: optionsState, ..._options } = options;
 
@@ -63,14 +46,40 @@ function useTanstackTable<T>(options: TableOptions<T>, id: string) {
         return colSizes;
     }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
 
-    useEffect(() => {
-        if (Object.keys(columnVisibility).length !== Object.keys(defaultColumnVisibility).length)
-            setColumnVisibility(defaultColumnVisibility);
-
-        if (Object.keys(columnOrder).length !== defaultColumnOrder.length) setColumnOrder(defaultColumnOrder);
-    }, [columnVisibility, columnOrder, table]);
-
     return { columnVisibility, setColumnVisibility, columnOrder, setColumnOrder, table, columnSizeVars };
 }
 
 export { useTanstackTable };
+
+function useColumnVisibilityState<T>(id: string, tableVersion: number, options: TableOptions<T>) {
+    const defaultColumnVisibility: VisibilityState = useMemo(() => {
+        return options.columns.reduce((acc, col) => {
+            acc[String(col.id)] = !col.meta?.hiddenByDefault;
+            return acc;
+        }, {} as VisibilityState);
+    }, [options.columns]);
+
+    return useLocalState<VisibilityState>(
+        "tanstack-table-column-visibility-" + id + "-" + tableVersion,
+        defaultColumnVisibility,
+        () => {
+            if (localStorage.getItem("tanstack-table-column-visibility-" + id + "-" + (tableVersion - 1)))
+                localStorage.removeItem("tanstack-table-column-visibility-" + id + "-" + (tableVersion - 1));
+        }
+    );
+}
+
+function useColumnOrderState<T>(id: string, tableVersion: number, options: TableOptions<T>) {
+    const defaultColumnOrder: ColumnOrderState = useMemo(() => {
+        return options.columns.map((col) => String(col.id));
+    }, [options.columns]);
+
+    return useLocalState<ColumnOrderState>(
+        "tanstack-table-column-order-" + id + "-" + tableVersion,
+        defaultColumnOrder,
+        () => {
+            if (localStorage.getItem("tanstack-table-column-order-" + id + "-" + (tableVersion - 1)))
+                localStorage.removeItem("tanstack-table-column-order-" + id + "-" + (tableVersion - 1));
+        }
+    );
+}

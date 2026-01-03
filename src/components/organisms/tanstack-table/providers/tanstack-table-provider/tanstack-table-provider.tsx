@@ -3,19 +3,25 @@ import type { PropsWithChildren } from "react";
 import { TanstackTableContext, useTanstackTableProvider } from "./tanstack-table-provider.hooks";
 
 export interface ITanstackTableProps<T> {
-    options: TableOptions<T>;
-    id: string;
-    stickyLeft?: boolean;
-    stickyRight?: boolean;
+    options: TableOptions<T>; // Options for the useReactTable hook
+    id: string; // Unique ID for the table
+    stickyLeft?: boolean; // Whether the first column is sticky
+    stickyRight?: boolean; // Whether the last column is sticky
+    tableVersion?: number;
+    /*
+    Version number for the table to reset local storage states when the table structure changes.
+    The default is 1. Increment ONLY BY ONE(!) when there are breaking changes to the table structure (e.g., columns added/removed/renamed).
+    */
 }
 
 export function TanstackTableProvider<T>({
     children,
     stickyLeft = true,
     stickyRight = true,
+    tableVersion = 1,
     ...props
 }: PropsWithChildren<ITanstackTableProps<T>>) {
-    const value = useTanstackTableProvider({ ...props, stickyLeft, stickyRight });
+    const value = useTanstackTableProvider({ ...props, stickyLeft, stickyRight, tableVersion });
 
     return <TanstackTableContext.Provider value={value}>{children}</TanstackTableContext.Provider>;
 }
