@@ -48,7 +48,7 @@ function SortableColumnRow({ id, visible, onToggle }: { id: string; visible: boo
 }
 
 export const TanstackTableReorderDialog = () => {
-    const { columnOrder, setColumnOrder, setColumnVisibility, columnVisibility } = useTanstackTableContext();
+    const { columnOrder, setColumnOrder, setColumnVisibility, columnVisibility, options } = useTanstackTableContext();
 
     const [tempColumns, setTempColumns] = useState<ColumnOrderState>(columnOrder);
     const [tempVisibility, setTempVisibility] = useState<VisibilityState>(columnVisibility);
@@ -75,6 +75,16 @@ export const TanstackTableReorderDialog = () => {
             setTempColumns(columnOrder);
             setTempVisibility(columnVisibility);
         }
+    };
+
+    const handleDefault = () => {
+        const defaultColumnOrder = options.columns.map((col) => String(col.id)).filter((id) => id !== "actions") || [];
+        setTempColumns([...defaultColumnOrder, "actions"]);
+        const defaultVisibility: VisibilityState = {};
+        options.columns?.forEach((col) => {
+            if (col.id !== "actions") defaultVisibility[String(col.id)] = true;
+        });
+        setTempVisibility(defaultVisibility);
     };
 
     const sensors = useSensors(
@@ -128,11 +138,16 @@ export const TanstackTableReorderDialog = () => {
                         </div>
                     </SortableContext>
                 </DndContext>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button variant="outline">Close</Button>
-                    </DialogClose>
-                    <Button onClick={handleApply}>Apply</Button>
+                <DialogFooter className="sm:justify-between">
+                    <Button variant="outline" onClick={handleDefault}>
+                        Default
+                    </Button>
+                    <div className="flex flex-col-reverse sm:flex-row gap-2">
+                        <DialogClose asChild>
+                            <Button variant="outline">Close</Button>
+                        </DialogClose>
+                        <Button onClick={handleApply}>Apply</Button>
+                    </div>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
