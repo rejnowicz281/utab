@@ -116,23 +116,13 @@ export default function MainPage() {
         <div className="flex flex-col gap-6 p-4">
             <div className="flex items-center gap-2">
                 <div className="flex flex-col gap-2">
-                    <Label htmlFor="mock-total-count">Total Count:</Label>
+                    <Label htmlFor="mock-total-count">Mock total Count:</Label>
                     <Input
                         id="mock-total-count"
-                        placeholder="Total count (default: 1000)"
+                        placeholder="Mock total count (default: 1000)"
                         type="number"
                         value={mockTotalCount}
                         onChange={(e) => setMockTotalCount(e.target.value ? Number(e.target.value) : 0)}
-                    />
-                </div>
-                <div className="flex flex-col gap-2">
-                    <Label htmlFor="mock-page-size">Page Size:</Label>
-                    <Input
-                        id="mock-page-size"
-                        placeholder="Page size (default: 10)"
-                        type="number"
-                        value={mockPageSize}
-                        onChange={(e) => setMockPageSize(e.target.value ? Number(e.target.value) : 0)}
                     />
                 </div>
             </div>

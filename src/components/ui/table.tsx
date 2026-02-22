@@ -3,6 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./button";
+import { Input } from "./input";
 
 function Table({
     className,
@@ -134,9 +135,18 @@ function TableNavigation({
         >
             <span>Total items: {totalItems}</span>
             <div className="flex items-center gap-2">
-                <span>
-                    Page: {currentPage} of {totalPages}
-                </span>
+                <div className="flex items-center gap-2">
+                    <span>Page:</span>
+                    <Input
+                        value={currentPage ? currentPage : ""}
+                        onChange={(e) => {
+                            if (e.target.value === "") onPageChange(0);
+                            if (e.target.value) onPageChange(Number(e.target.value));
+                        }}
+                        className="max-w-[50px]"
+                    />
+                    <span>of {totalPages}</span>
+                </div>
                 <Button variant="outline" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage <= 1}>
                     <ChevronLeft />
                 </Button>
