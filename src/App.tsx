@@ -1,7 +1,8 @@
 import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
-import { ChevronRight, Smile } from "lucide-react";
+import { ActivitySquare, Check, ChevronRight, Smile, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { TanstackTableReorderDialog } from "./components/organisms/tanstack-table/components/reorder/reorder.dialog";
+import { TableActionButton } from "./components/organisms/tanstack-table/components/selected-rows/components/table-action-button";
 import { TanstackTable } from "./components/organisms/tanstack-table/tanstack-table";
 import { Badge } from "./components/ui/badge";
 import { Button } from "./components/ui/button";
@@ -113,6 +114,26 @@ function App() {
             </div>
             <div className="flex gap-12">
                 <TanstackTable
+                    selectedRowsActions={
+                        <>
+                            <TableActionButton>
+                                <ActivitySquare />
+                                Activate
+                            </TableActionButton>
+                            <TableActionButton>
+                                <Check />
+                                Accept
+                            </TableActionButton>
+                            <TableActionButton>
+                                <X />
+                                Reject
+                            </TableActionButton>
+                            <TableActionButton variant="destructive">
+                                <Trash2 />
+                                Delete
+                            </TableActionButton>
+                        </>
+                    }
                     options={{
                         data: generateMockInvoices(mockInvoicesCount),
                         columns,

@@ -6,25 +6,39 @@ import { Button } from "./button";
 
 function Table({
     className,
-    containerProps: _containerProps,
+    innerContainer: _innerContainerProps,
+    outerContainer: _outerContainerProps,
     ...props
 }: React.ComponentProps<"table"> & {
-    containerProps?: React.ComponentProps<"div">;
+    innerContainer?: React.ComponentProps<"div">;
+    outerContainer?: React.ComponentProps<"div">;
 }) {
-    const { className: containerClassName, children: containerChildren, ...containerProps } = _containerProps || {};
+    const {
+        className: innerContainerClassName,
+        children: innerContainerChildren,
+        ...innerContainerProps
+    } = _innerContainerProps || {};
+    const {
+        className: outerContainerClassName,
+        children: outerContainerChildren,
+        ...outerContainerProps
+    } = _outerContainerProps || {};
 
     return (
         <div
             data-slot="table-container"
-            className={cn("relative w-full overflow-x-auto", containerClassName)}
-            {...containerProps}
+            className={cn("relative w-full", outerContainerClassName)}
+            {...outerContainerProps}
         >
-            <table
-                data-slot="table"
-                className={cn("w-full border-separate border-spacing-0 caption-bottom text-sm", className)}
-                {...props}
-            />
-            {containerChildren}
+            <div className={cn("w-full overflow-x-auto", innerContainerClassName)} {...innerContainerProps}>
+                <table
+                    data-slot="table"
+                    className={cn("w-full border-separate border-spacing-0 caption-bottom text-sm", className)}
+                    {...props}
+                />
+                {innerContainerChildren}
+            </div>
+            {outerContainerChildren}
         </div>
     );
 }

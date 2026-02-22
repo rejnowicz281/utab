@@ -1,6 +1,9 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
 import { flexRender } from "@tanstack/react-table";
 import { NullableResizer } from "./components/resizer/resizer";
+import { SelectAllRowsCheckbox } from "./components/selected-rows/components/select-all-rows-checkbox";
+import { SelectRowCheckbox } from "./components/selected-rows/components/select-row-checkbot";
+import { SelectedRows } from "./components/selected-rows/selected-rows";
 import {
     TanstackTableProvider,
     type ITanstackTableProps
@@ -16,12 +19,13 @@ function TanstackTable<T>(props: ITanstackTableProps<T>) {
 }
 
 function TanstackTableMain() {
-    const { table, columnSizeVars, id, options, stickyLeft, stickyRight } = useTanstackTableContext();
+    const { table, columnSizeVars, id, options, stickyLeft, stickyRight, selectedRowsActions } =
+        useTanstackTableContext();
 
     return (
         <Table
             id={id}
-            containerProps={{
+            innerContainer={{
                 style: { ...columnSizeVars },
                 className: "border",
                 children: (
@@ -37,6 +41,9 @@ function TanstackTableMain() {
                     />
                 )
             }}
+            outerContainer={{
+                children: selectedRowsActions ? <SelectedRows /> : null
+            }}
         >
             <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -48,14 +55,17 @@ function TanstackTableMain() {
                                     stickyLeft && idx === 0
                                         ? "left"
                                         : stickyRight && idx === headerGroup.headers.length - 1
-                                        ? "right"
-                                        : undefined
+                                          ? "right"
+                                          : undefined
                                 }
                                 key={header.id}
                                 className={
                                     header.column.columnDef.meta?.cellAlign === "right" ? "text-right" : undefined
                                 }
                             >
+                                {idx === 0 && !!selectedRowsActions ? (
+                                    <SelectAllRowsCheckbox className="mr-3 relative top-0.5" />
+                                ) : null}
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                                 <NullableResizer header={header} />
                             </TableHead>
@@ -76,11 +86,14 @@ function TanstackTableMain() {
                                     stickyLeft && idx === 0
                                         ? "left"
                                         : stickyRight && idx === row.getVisibleCells().length - 1
-                                        ? "right"
-                                        : undefined
+                                          ? "right"
+                                          : undefined
                                 }
                                 className={cell.column.columnDef.meta?.cellAlign === "right" ? "text-right" : undefined}
                             >
+                                {idx === 0 && !!selectedRowsActions ? (
+                                    <SelectRowCheckbox row={row} className="mr-3" />
+                                ) : null}
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </TableCell>
                         ))}

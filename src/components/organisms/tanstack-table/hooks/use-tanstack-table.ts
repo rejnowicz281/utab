@@ -6,7 +6,7 @@ import {
     type TableOptions,
     type VisibilityState
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export interface ExtendedColumnMeta<_TData, _TValue> {
     hiddenByDefault?: boolean;
@@ -46,10 +46,75 @@ function useTanstackTable<T>(options: TableOptions<T>, id: string, tableVersion:
         return colSizes;
     }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
 
-    return { columnVisibility, setColumnVisibility, columnOrder, setColumnOrder, table, columnSizeVars };
+    const selectedRowsLogic = useSelectedRows<T>();
+
+    return {
+        ...selectedRowsLogic,
+        columnVisibility,
+        setColumnVisibility,
+        columnOrder,
+        setColumnOrder,
+        table,
+        columnSizeVars
+    };
 }
 
 export { useTanstackTable };
+
+function useSelectedRows<T>() {
+    const getRowId = (row: T) => (row as any)?.id;
+
+    const [selectedRows, setSelectedRows] = useState<T[]>([]);
+
+    const isRowSelected = useCallback(
+        (rowId: number | string) => {
+            return selectedRows.some((row) => getRowId(row) === rowId);
+        },
+        [selectedRows]
+    );
+
+    const toggleRowSelection = useCallback((row: T, rowId: number | string) => {
+        setSelectedRows((prev) => {
+            const isCurrentlySelected = prev.some((selectedRow) => getRowId(selectedRow) === rowId);
+
+            if (isCurrentlySelected) {
+                return prev.filter((selectedRow) => getRowId(selectedRow) !== rowId);
+            } else {
+                return [...prev, row];
+            }
+        });
+    }, []);
+
+    const toggleAllRowsSelection = useCallback((allRows: T[]) => {
+        setSelectedRows((prev) => {
+            const allRowIds = allRows.map(getRowId);
+            const selectedRowIds = prev.map(getRowId);
+
+            // If all rows are selected, deselect all
+            const areAllSelected = allRowIds.every((id) => selectedRowIds.includes(id));
+
+            if (areAllSelected) {
+                return prev.filter((selectedRow) => !allRowIds.includes(getRowId(selectedRow)));
+            } else {
+                // Select all rows that aren't already selected
+                const newSelections = allRows.filter((row) => !selectedRowIds.includes(getRowId(row)));
+                return [...prev, ...newSelections];
+            }
+        });
+    }, []);
+
+    const resetSelection = useCallback(() => {
+        setSelectedRows([]);
+    }, []);
+
+    return {
+        selectedRows,
+        isRowSelected,
+        toggleRowSelection,
+        toggleAllRowsSelection,
+        resetSelection
+    };
+}
 
 function useColumnVisibilityState<T>(id: string, tableVersion: number, options: TableOptions<T>) {
     const defaultColumnVisibility: VisibilityState = useMemo(() => {
