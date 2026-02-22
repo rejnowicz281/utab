@@ -26,11 +26,15 @@ function Table({
 
     return (
         <div
-            data-slot="table-container"
+            data-slot="table-outer-container"
             className={cn("relative w-full", outerContainerClassName)}
             {...outerContainerProps}
         >
-            <div className={cn("w-full overflow-x-auto", innerContainerClassName)} {...innerContainerProps}>
+            <div
+                data-slot="table-inner-container"
+                className={cn("w-full overflow-x-auto", innerContainerClassName)}
+                {...innerContainerProps}
+            >
                 <table
                     data-slot="table"
                     className={cn("w-full border-separate border-spacing-0 caption-bottom text-sm", className)}
@@ -108,6 +112,12 @@ function TableCaption({ className, ...props }: React.ComponentProps<"caption">) 
     );
 }
 
+export interface ITableNavigationProps extends React.ComponentProps<"div"> {
+    totalItems?: number;
+    totalPages?: number;
+    currentPage?: number;
+    onPageChange?: (page: number) => void;
+}
 function TableNavigation({
     className,
     totalItems = 1,
@@ -115,12 +125,7 @@ function TableNavigation({
     currentPage = 1,
     onPageChange = () => {},
     ...props
-}: React.ComponentProps<"div"> & {
-    totalItems?: number;
-    totalPages?: number;
-    currentPage?: number;
-    onPageChange?: (page: number) => void;
-}) {
+}: ITableNavigationProps) {
     return (
         <div
             role="region"

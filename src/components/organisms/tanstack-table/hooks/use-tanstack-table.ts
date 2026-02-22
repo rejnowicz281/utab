@@ -31,6 +31,7 @@ function useTanstackTable<T>(options: TableOptions<T>, id: string, tableVersion:
             columnOrder,
             ...optionsState
         },
+        manualPagination: true,
         onColumnVisibilityChange: setColumnVisibility,
         onColumnOrderChange: setColumnOrder
     });

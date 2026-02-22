@@ -1,9 +1,10 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableNavigation, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { flexRender } from "@tanstack/react-table";
 import { NullableResizer } from "./components/resizer/resizer";
 import { SelectAllRowsCheckbox } from "./components/selected-rows/components/select-all-rows-checkbox";
 import { SelectRowCheckbox } from "./components/selected-rows/components/select-row-checkbot";
 import { SelectedRows } from "./components/selected-rows/selected-rows";
+import { TanstackTableNavigation } from "./components/table-navigation/tanstack-table-navigation";
 import {
     TanstackTableProvider,
     type ITanstackTableProps
@@ -19,8 +20,7 @@ function TanstackTable<T>(props: ITanstackTableProps<T>) {
 }
 
 function TanstackTableMain() {
-    const { table, columnSizeVars, id, options, stickyLeft, stickyRight, selectedRowsActions } =
-        useTanstackTableContext();
+    const { table, columnSizeVars, id, stickyLeft, stickyRight, selectedRowsActions } = useTanstackTableContext();
 
     return (
         <Table
@@ -28,18 +28,7 @@ function TanstackTableMain() {
             innerContainer={{
                 style: { ...columnSizeVars },
                 className: "border",
-                children: (
-                    <TableNavigation
-                        totalItems={options.data.length}
-                        totalPages={5}
-                        currentPage={1}
-                        onPageChange={() => {
-                            // TODO: pages
-                        }}
-                        aria-label="Table controls"
-                        aria-controls={id}
-                    />
-                )
+                children: <TanstackTableNavigation />
             }}
             outerContainer={{
                 children: selectedRowsActions ? <SelectedRows /> : null

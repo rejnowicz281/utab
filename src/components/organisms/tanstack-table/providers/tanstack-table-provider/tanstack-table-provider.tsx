@@ -13,6 +13,8 @@ export interface ITanstackTableProps<T> {
     The default is 1. Increment ONLY BY ONE(!) when there are breaking changes to the table structure (e.g., columns added/removed/renamed).
     */
     selectedRowsActions?: ReactNode;
+    totalCount?: number;
+    pageSize?: number;
 }
 
 export function TanstackTableProvider<T>({
