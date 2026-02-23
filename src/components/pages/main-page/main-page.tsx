@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useParamsPageNumber } from "@/lib/utils";
+import { useParamsPageNumber, useParamsPageSize } from "@/lib/utils";
 import { generateMockInvoices, type IInvoice } from "@/mock/mock-data";
 import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
 import { ActivitySquare, Check, ChevronRight, Smile, Trash2, X } from "lucide-react";
@@ -101,14 +101,13 @@ export default function MainPage() {
 
     const [mockTotalCount, setMockTotalCount] = useState<number>(1000);
 
-    const [mockPageSize, setMockPageSize] = useState<number>(10);
-
     const mockData = useMemo(() => generateMockInvoices(mockTotalCount), [mockTotalCount]);
 
     const currentPage = useParamsPageNumber();
+    const pageSize = useParamsPageSize();
 
-    const startIndex = (currentPage - 1) * mockPageSize;
-    const endIndex = startIndex + mockPageSize;
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
 
     const paginatedData = mockData.slice(startIndex, endIndex);
 
@@ -129,7 +128,6 @@ export default function MainPage() {
             <div className="flex gap-12">
                 <TanstackTable
                     totalCount={mockTotalCount}
-                    pageSize={mockPageSize}
                     selectedRowsActions={
                         <>
                             <TableActionMockButton>

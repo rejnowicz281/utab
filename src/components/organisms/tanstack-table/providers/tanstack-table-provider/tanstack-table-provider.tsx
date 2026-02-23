@@ -14,7 +14,6 @@ export interface ITanstackTableProps<T> {
     */
     selectedRowsActions?: ReactNode;
     totalCount?: number;
-    pageSize?: number;
 }
 
 export function TanstackTableProvider<T>({

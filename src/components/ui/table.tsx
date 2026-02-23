@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./button";
 import { Input } from "./input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./select";
 
 function Table({
     className,
@@ -117,14 +118,18 @@ export interface ITableNavigationProps extends React.ComponentProps<"div"> {
     totalItems?: number;
     totalPages?: number;
     currentPage?: number;
+    pageSize?: number;
     onPageChange?: (page: number) => void;
+    onPageSizeChange?: (pageSize: number) => void;
 }
 function TableNavigation({
     className,
     totalItems = 1,
     totalPages = 1,
     currentPage = 1,
+    pageSize = 10,
     onPageChange = () => {},
+    onPageSizeChange = () => {},
     ...props
 }: ITableNavigationProps) {
     return (
@@ -135,6 +140,19 @@ function TableNavigation({
         >
             <span>Total items: {totalItems}</span>
             <div className="flex items-center gap-2">
+                <Select onValueChange={(value) => onPageSizeChange(Number(value))} defaultValue={String(pageSize)}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Per page" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="25">25</SelectItem>
+                            <SelectItem value="50">50</SelectItem>
+                            <SelectItem value="100">100</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
                 <div className="flex items-center gap-2">
                     <span>Page:</span>
                     <Input

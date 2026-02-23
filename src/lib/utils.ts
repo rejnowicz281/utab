@@ -11,3 +11,9 @@ export function useParamsPageNumber() {
 
     return paramsPageNumber ? Number(paramsPageNumber) : 1;
 }
+
+export function useParamsPageSize() {
+    const paramsPageSize = useSearchParams()[0].get("pageSize");
+
+    return paramsPageSize ? Number(paramsPageSize) : 10;
+}
