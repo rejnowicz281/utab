@@ -17,3 +17,9 @@ export function useParamsPageSize() {
 
     return paramsPageSize ? Number(paramsPageSize) : 10;
 }
+
+export const useParamsLocalSearch = () => {
+    const paramsLocalSearch = useSearchParams()[0].get("localSearch");
+
+    return paramsLocalSearch ? String(paramsLocalSearch) : "";
+};

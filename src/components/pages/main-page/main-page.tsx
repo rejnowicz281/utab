@@ -1,3 +1,4 @@
+import { FilterController } from "@/components/organisms/filter-controller/filter-controller";
 import { TanstackTableReorderDialog } from "@/components/organisms/tanstack-table/components/reorder/reorder.dialog";
 import { TableActionMockButton } from "@/components/organisms/tanstack-table/components/selected-rows/components/table-action-button";
 import { TanstackTable } from "@/components/organisms/tanstack-table/tanstack-table";
@@ -5,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { useParamsPageNumber, useParamsPageSize } from "@/lib/utils";
 import { generateMockInvoices, type IInvoice } from "@/mock/mock-data";
 import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
@@ -112,59 +114,61 @@ export default function MainPage() {
     const paginatedData = mockData.slice(startIndex, endIndex);
 
     return (
-        <div className="flex flex-col gap-6 p-4">
-            <div className="flex gap-12">
-                <TanstackTable
-                    classNames={{
-                        outerContainer: "mt-16"
-                    }}
-                    totalCount={mockTotalCount}
-                    selectedRowsActions={
-                        <>
-                            <TableActionMockButton>
-                                <ActivitySquare />
-                                Activate
-                            </TableActionMockButton>
-                            <TableActionMockButton>
-                                <Check />
-                                Accept
-                            </TableActionMockButton>
-                            <TableActionMockButton>
-                                <X />
-                                Reject
-                            </TableActionMockButton>
-                            <TableActionMockButton variant="destructive">
-                                <Trash2 />
-                                Delete
-                            </TableActionMockButton>
-                        </>
-                    }
-                    options={{
-                        data: paginatedData,
-                        columns,
-                        getCoreRowModel: getCoreRowModel(),
-                        columnResizeMode: "onChange",
-                        defaultColumn: { minSize: 150, maxSize: 800 }
-                    }}
-                    id="invoices-table"
-                />
-
-                <div className="flex flex-col gap-4">
-                    <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4">
-                        <Smile className="text-teal-600" size={48} />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Label htmlFor="mock-total-count">Mock total Count:</Label>
-                        <Input
-                            id="mock-total-count"
-                            placeholder="Mock total count (default: 1000)"
-                            type="number"
-                            value={mockTotalCount}
-                            onChange={(e) => setMockTotalCount(e.target.value ? Number(e.target.value) : 0)}
-                        />
+        <TooltipProvider>
+            <div className="flex flex-col gap-6 p-4">
+                <FilterController />
+                <div className="flex gap-12">
+                    <TanstackTable
+                        classNames={{
+                            outerContainer: "mt-16"
+                        }}
+                        totalCount={mockTotalCount}
+                        selectedRowsActions={
+                            <>
+                                <TableActionMockButton>
+                                    <ActivitySquare />
+                                    Activate
+                                </TableActionMockButton>
+                                <TableActionMockButton>
+                                    <Check />
+                                    Accept
+                                </TableActionMockButton>
+                                <TableActionMockButton>
+                                    <X />
+                                    Reject
+                                </TableActionMockButton>
+                                <TableActionMockButton variant="destructive">
+                                    <Trash2 />
+                                    Delete
+                                </TableActionMockButton>
+                            </>
+                        }
+                        options={{
+                            data: paginatedData,
+                            columns,
+                            getCoreRowModel: getCoreRowModel(),
+                            columnResizeMode: "onChange",
+                            defaultColumn: { minSize: 150, maxSize: 800 }
+                        }}
+                        id="invoices-table"
+                    />
+                    <div className="flex flex-col gap-4">
+                        <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4">
+                            <Smile className="text-teal-600" size={48} />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label htmlFor="mock-total-count">Mock total Count:</Label>
+                            <Input
+                                id="mock-total-count"
+                                placeholder="Mock total count (default: 1000)"
+                                type="number"
+                                value={mockTotalCount}
+                                onChange={(e) => setMockTotalCount(e.target.value ? Number(e.target.value) : 0)}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </TooltipProvider>
     );
 }
