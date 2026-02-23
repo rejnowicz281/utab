@@ -113,18 +113,6 @@ export default function MainPage() {
 
     return (
         <div className="flex flex-col gap-6 p-4">
-            <div className="flex items-center gap-2">
-                <div className="flex flex-col gap-2">
-                    <Label htmlFor="mock-total-count">Mock total Count:</Label>
-                    <Input
-                        id="mock-total-count"
-                        placeholder="Mock total count (default: 1000)"
-                        type="number"
-                        value={mockTotalCount}
-                        onChange={(e) => setMockTotalCount(e.target.value ? Number(e.target.value) : 0)}
-                    />
-                </div>
-            </div>
             <div className="flex gap-12">
                 <TanstackTable
                     totalCount={mockTotalCount}
@@ -158,8 +146,20 @@ export default function MainPage() {
                     id="invoices-table"
                 />
 
-                <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4 h-24 w-24">
-                    <Smile className="text-teal-600" size={48} />
+                <div className="flex flex-col gap-4">
+                    <div className="border bg-teal-300 rounded-lg flex items-center justify-center p-4">
+                        <Smile className="text-teal-600" size={48} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="mock-total-count">Mock total Count:</Label>
+                        <Input
+                            id="mock-total-count"
+                            placeholder="Mock total count (default: 1000)"
+                            type="number"
+                            value={mockTotalCount}
+                            onChange={(e) => setMockTotalCount(e.target.value ? Number(e.target.value) : 0)}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
