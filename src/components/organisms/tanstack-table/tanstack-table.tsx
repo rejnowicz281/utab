@@ -20,7 +20,8 @@ function TanstackTable<T>(props: ITanstackTableProps<T>) {
 }
 
 function TanstackTableMain() {
-    const { table, columnSizeVars, id, stickyLeft, stickyRight, selectedRowsActions } = useTanstackTableContext();
+    const { table, columnSizeVars, id, stickyLeft, stickyRight, selectedRowsActions, classNames } =
+        useTanstackTableContext();
 
     return (
         <Table
@@ -31,6 +32,7 @@ function TanstackTableMain() {
                 children: <TanstackTableNavigation />
             }}
             outerContainer={{
+                className: classNames?.outerContainer,
                 children: selectedRowsActions ? <SelectedRows /> : null
             }}
         >

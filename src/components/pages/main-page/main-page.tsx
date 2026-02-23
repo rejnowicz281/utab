@@ -115,6 +115,9 @@ export default function MainPage() {
         <div className="flex flex-col gap-6 p-4">
             <div className="flex gap-12">
                 <TanstackTable
+                    classNames={{
+                        outerContainer: "mt-16"
+                    }}
                     totalCount={mockTotalCount}
                     selectedRowsActions={
                         <>

@@ -14,6 +14,9 @@ export interface ITanstackTableProps<T> {
     */
     selectedRowsActions?: ReactNode;
     totalCount?: number;
+    classNames?: {
+        outerContainer?: string;
+    };
 }
 
 export function TanstackTableProvider<T>({
