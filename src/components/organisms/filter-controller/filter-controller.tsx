@@ -1,5 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
+import { FiltersSheet } from "./components/filters-sheet/filters-sheet";
 import { LocalSearch } from "./components/local-search/local-search";
 
 export const FilterController = () => {
@@ -16,6 +17,7 @@ export const FilterController = () => {
                     <span className="text-muted-foreground">Press Ctrl + / to focus</span>
                 </TooltipContent>
             </Tooltip>
+            <FiltersSheet />
         </div>
     );
 };
