@@ -1,4 +1,5 @@
-import { FilterController, type IFilterInfo } from "@/components/organisms/filter-controller/filter-controller";
+import { FilterController } from "@/components/organisms/filter-controller/filter-controller";
+import type { IFilterInfo } from "@/components/organisms/filter-controller/providers/filter-controller-provider/filter-controller-provider";
 import { TanstackTableReorderDialog } from "@/components/organisms/tanstack-table/components/reorder/reorder.dialog";
 import { TableActionMockButton } from "@/components/organisms/tanstack-table/components/selected-rows/components/table-action-button";
 import { TanstackTable } from "@/components/organisms/tanstack-table/tanstack-table";
