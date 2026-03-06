@@ -1,23 +1,29 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { FiltersBadgesList } from "./components/filters-badges-list/filters-badges-list";
 import { FiltersSheet } from "./components/filters-sheet/filters-sheet";
 import { LocalSearch } from "./components/local-search/local-search";
+import { LocalSearchTooltip } from "./components/local-search/local-search-tooltip";
+import {
+    FilterControllerProvider,
+    type IFilterControllerProps
+} from "./providers/filter-controller-provider/filter-controller-provider";
 
-export const FilterController = () => {
+export const FilterController = (props: IFilterControllerProps) => {
     return (
-        <div className="flex items-center gap-2">
-            <LocalSearch />
-            <Tooltip>
-                <TooltipTrigger>
-                    <Info className="text-muted-foreground" size={18} />
-                </TooltipTrigger>
-                <TooltipContent className="flex flex-col items-center text-center gap-1">
-                    <span>Filters table data by searching for partial text matches in:</span>
-                    <span>Invoice, Client</span>
-                    <span className="text-muted-foreground">Press Ctrl + / to focus</span>
-                </TooltipContent>
-            </Tooltip>
-            <FiltersSheet />
+        <FilterControllerProvider {...props}>
+            <FilterControllerMain />
+        </FilterControllerProvider>
+    );
+};
+
+const FilterControllerMain = () => {
+    return (
+        <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <LocalSearch />
+                <LocalSearchTooltip />
+                <FiltersSheet />
+            </div>
+            <FiltersBadgesList />
         </div>
     );
 };

@@ -8,9 +8,14 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 
+export interface ITableFilterMeta {
+    type: "text" | "number";
+}
+
 export interface ExtendedColumnMeta<_TData, _TValue> {
     hiddenByDefault?: boolean;
     cellAlign?: "left" | "right";
+    filter?: ITableFilterMeta;
 }
 
 declare module "@tanstack/react-table" {

@@ -1,4 +1,4 @@
-import { FilterController } from "@/components/organisms/filter-controller/filter-controller";
+import { FilterController, type IFilterInfo } from "@/components/organisms/filter-controller/filter-controller";
 import { TanstackTableReorderDialog } from "@/components/organisms/tanstack-table/components/reorder/reorder.dialog";
 import { TableActionMockButton } from "@/components/organisms/tanstack-table/components/selected-rows/components/table-action-button";
 import { TanstackTable } from "@/components/organisms/tanstack-table/tanstack-table";
@@ -21,7 +21,12 @@ export default function MainPage() {
             accessor("id", {
                 cell: ({ getValue }) => `#${getValue()}`,
                 header: "Invoice",
-                id: "Invoice"
+                id: "Invoice",
+                meta: {
+                    filter: {
+                        type: "number"
+                    }
+                }
             }),
 
             accessor("client", {
@@ -113,10 +118,28 @@ export default function MainPage() {
 
     const paginatedData = mockData.slice(startIndex, endIndex);
 
+    type IColumns = typeof columns;
+    const extractFilters = (columns: IColumns) => {
+        const filters: IFilterInfo[] = [];
+
+        columns.forEach((col) => {
+            const filterMeta = col.meta?.filter;
+            if (filterMeta && col.id) {
+                filters.push({
+                    id: col.id,
+                    type: filterMeta.type
+                });
+            }
+        });
+
+        return filters;
+    };
+    const filters = extractFilters(columns);
+
     return (
         <TooltipProvider>
             <div className="flex flex-col gap-6 p-4">
-                <FilterController />
+                <FilterController filters={filters} />
                 <div className="flex gap-12">
                     <TanstackTable
                         classNames={{
