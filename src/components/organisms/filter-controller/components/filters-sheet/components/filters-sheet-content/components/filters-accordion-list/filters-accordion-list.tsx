@@ -9,13 +9,13 @@ export const FiltersAccordionList = () => {
             {filters.map((filter) => {
                 switch (filter.meta.type) {
                     case "text":
-                        return <TextFilterAccordion filter={filter} />;
+                        return <TextFilterAccordion key={filter.id} filter={filter} />;
                     case "number":
-                        return <TextFilterAccordion type="number" filter={filter} />;
+                        return <TextFilterAccordion key={filter.id} type="number" filter={filter} />;
                     case "date":
-                        return <TextFilterAccordion type="date" filter={filter} />;
+                        return <TextFilterAccordion key={filter.id} type="date" filter={filter} />;
                     default:
-                        return <TextFilterAccordion filter={filter} />;
+                        return <TextFilterAccordion key={filter.id} filter={filter} />;
                 }
             })}
         </div>
