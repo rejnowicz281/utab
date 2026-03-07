@@ -6,7 +6,6 @@ import {
     FilterControllerProvider,
     type IFilterControllerProps
 } from "./providers/filter-controller-provider/filter-controller-provider";
-import { useFilterControllerContext } from "./providers/filter-controller-provider/filter-controller-provider.hooks";
 
 export const FilterController = (props: IFilterControllerProps) => {
     return (
@@ -17,7 +16,7 @@ export const FilterController = (props: IFilterControllerProps) => {
 };
 
 const FilterControllerMain = () => {
-    const { filters, localFilterObject, paramFilterObject } = useFilterControllerContext();
+    // const { filters, localFilterObject, paramFilterObject } = useFilterControllerContext();
 
     return (
         <div className="flex flex-col gap-2">
@@ -26,7 +25,7 @@ const FilterControllerMain = () => {
                 <LocalSearchTooltip />
                 <FiltersSheet />
             </div>
-            <pre>{JSON.stringify({ filters, localFilterObject, paramFilterObject }, null, 2)}</pre>
+            {/* <pre>{JSON.stringify({ filters, localFilterObject, paramFilterObject }, null, 2)}</pre> */}
             <FiltersBadgesList />
         </div>
     );

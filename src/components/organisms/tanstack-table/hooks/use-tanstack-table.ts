@@ -9,7 +9,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 
 export interface ITableFilterMeta {
-    type: "text" | "number";
+    type: "text" | "number" | "date";
     chipAlwaysVisible?: boolean;
 }
 

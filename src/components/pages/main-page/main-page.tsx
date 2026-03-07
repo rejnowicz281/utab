@@ -34,31 +34,58 @@ export default function MainPage() {
             accessor("client", {
                 cell: ({ getValue }) => getValue(),
                 header: "Client",
-                id: "Client"
+                id: "Client",
+                meta: {
+                    filter: {
+                        type: "text"
+                    }
+                }
             }),
 
             accessor("status", {
                 cell: ({ getValue }) => <Badge variant="secondary">{getValue()}</Badge>,
                 header: "Status",
-                id: "Status"
+                id: "Status",
+                meta: {
+                    filter: {
+                        type: "text", // TODO: Select
+                        chipAlwaysVisible: true
+                    }
+                }
             }),
 
             accessor("method", {
                 cell: ({ getValue }) => <Badge variant="outline">{getValue()}</Badge>,
                 header: "Method",
-                id: "Method"
+                id: "Method",
+                meta: {
+                    filter: {
+                        type: "text" // TODO: Select
+                    }
+                }
             }),
 
             accessor("date", {
                 cell: ({ getValue }) => new Date(getValue()).toLocaleDateString(),
                 header: "Date",
-                id: "Date"
+                id: "Date",
+                meta: {
+                    filter: {
+                        type: "date",
+                        chipAlwaysVisible: true
+                    }
+                }
             }),
 
             accessor("dueDate", {
                 cell: ({ getValue }) => new Date(getValue()).toLocaleDateString(),
                 header: "Due",
-                id: "Due"
+                id: "Due",
+                meta: {
+                    filter: {
+                        type: "date"
+                    }
+                }
             }),
 
             accessor("amount", {
@@ -69,7 +96,10 @@ export default function MainPage() {
                 header: "Amount",
                 id: "Amount",
                 meta: {
-                    cellAlign: "right"
+                    cellAlign: "right",
+                    filter: {
+                        type: "number"
+                    }
                 }
             }),
 
@@ -78,7 +108,10 @@ export default function MainPage() {
                 header: "Tax",
                 id: "Tax",
                 meta: {
-                    cellAlign: "right"
+                    cellAlign: "right",
+                    filter: {
+                        type: "number"
+                    }
                 }
             }),
 
@@ -87,7 +120,10 @@ export default function MainPage() {
                 header: "Ref",
                 id: "Ref",
                 meta: {
-                    hiddenByDefault: true
+                    hiddenByDefault: true,
+                    filter: {
+                        type: "text"
+                    }
                 }
             }),
 
@@ -143,7 +179,7 @@ export default function MainPage() {
 
     return (
         <TooltipProvider>
-            <div className="flex flex-col gap-6 p-4">
+            <div className="flex flex-col gap-2 p-4">
                 <FilterController filters={filters} />
                 <div className="flex gap-12">
                     <TanstackTable

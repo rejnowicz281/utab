@@ -26,6 +26,8 @@ export const FiltersBadgesList = () => {
                         return <TextFilterChip key={filter.id} filter={filter} />;
                     case "number":
                         return <TextFilterChip type="number" key={filter.id} filter={filter} />;
+                    case "date":
+                        return <TextFilterChip type="date" key={filter.id} filter={filter} />;
                     default:
                         return <TextFilterChip key={filter.id} filter={filter} />;
                 }
