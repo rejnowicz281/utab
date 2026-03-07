@@ -133,7 +133,11 @@ function TableNavigation({
     onPageSizeChange = () => {},
     ...props
 }: ITableNavigationProps) {
-    const [inputPageNumber, setInputPageNumber] = React.useState(String(currentPage + 1));
+    const [inputPageNumber, setInputPageNumber] = React.useState(String(currentPage));
+
+    React.useEffect(() => {
+        if (inputPageNumber !== String(currentPage)) setInputPageNumber(String(currentPage));
+    }, [currentPage]);
 
     const debouncedPageNumber = useDebounce(Number(inputPageNumber), 1000);
 
@@ -167,7 +171,11 @@ function TableNavigation({
                     <Input
                         value={inputPageNumber}
                         onChange={(e) => {
-                            if (Number(e.target.value) >= 0 && Number(e.target.value) <= totalPages) {
+                            if (
+                                e.target.value !== "0" &&
+                                Number(e.target.value) >= 0 &&
+                                Number(e.target.value) <= totalPages
+                            ) {
                                 setInputPageNumber(e.target.value);
                             }
                         }}
