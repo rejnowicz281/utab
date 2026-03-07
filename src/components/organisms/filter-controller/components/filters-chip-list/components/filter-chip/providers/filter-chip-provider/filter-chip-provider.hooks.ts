@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, type SetStateAction } from "react";
 
 import type { IFilterObjectValue } from "@/components/organisms/filter-controller/hooks/use-param-filter-object";
 import { useFilterControllerContext } from "@/components/organisms/filter-controller/providers/filter-controller-provider/filter-controller-provider.hooks";
@@ -17,16 +17,21 @@ export const useFilterChipContext = () => {
 export const useFilterChipProvider = (props: IFilterChipProps) => {
     const { filter } = props;
 
-    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [popoverOpen, _setPopoverOpen] = useState(false);
 
-    const { localFilterObject, paramFilterObject } = useFilterControllerContext();
+    const setPopoverOpen = (value: SetStateAction<boolean>) => {
+        _setPopoverOpen(value);
 
-    const localFilterValue = localFilterObject[filter.id] ?? null;
+        if (value === false) syncValueWithParamFilterValue();
+    };
+
+    const { paramFilterObject } = useFilterControllerContext();
+
     const paramFilterValue = paramFilterObject[filter.id] ?? null;
 
-    const [value, setValue] = useState<IFilterObjectValue>(localFilterValue);
-    const syncValueWithLocalFilterValue = () => {
-        setValue(localFilterObject[filter.id] ?? null);
+    const [value, setValue] = useState<IFilterObjectValue>(paramFilterValue);
+    const syncValueWithParamFilterValue = () => {
+        setValue(paramFilterObject[filter.id] ?? null);
     };
 
     const { setLocalFilterValue, setParamFilterValue } = useFilterControllerContext();
@@ -38,13 +43,8 @@ export const useFilterChipProvider = (props: IFilterChipProps) => {
         setParamFilterValue(filter.id, value);
     };
 
-    useEffect(() => {
-        syncValueWithLocalFilterValue();
-    }, [popoverOpen]);
-
     return {
         ...props,
-        localFilterValue,
         paramFilterValue,
         popoverOpen,
         setPopoverOpen,

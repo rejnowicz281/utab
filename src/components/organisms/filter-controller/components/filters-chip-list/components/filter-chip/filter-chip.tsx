@@ -48,7 +48,7 @@ export const FilterChipPopoverFooter = ({ className, ...props }: React.HTMLAttri
 };
 
 export const FilterChipPopoverApplyButton = ({ onClick, ...props }: IButtonProps) => {
-    const { applyValue, value, localFilterValue } = useFilterChipContext();
+    const { applyValue, value, paramFilterValue } = useFilterChipContext();
 
     return (
         <Button
@@ -56,7 +56,7 @@ export const FilterChipPopoverApplyButton = ({ onClick, ...props }: IButtonProps
                 onClick?.(e);
                 applyValue();
             }}
-            disabled={JSON.stringify(value) === JSON.stringify(localFilterValue)}
+            disabled={JSON.stringify(value) === JSON.stringify(paramFilterValue)}
             children="Apply"
             {...props}
         />

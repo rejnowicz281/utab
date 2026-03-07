@@ -20,6 +20,10 @@ export const useFilterControllerProvider = (props: IFilterControllerProps) => {
 
     const [localFilterObject, setLocalFilterObject] = useState(paramFilterObject);
 
+    const syncLocalFiltersWithParamFilters = () => {
+        setLocalFilterObject(paramFilterObject);
+    };
+
     const applyFilters = () => {
         setParamFilterObject(localFilterObject);
     };
@@ -72,6 +76,7 @@ export const useFilterControllerProvider = (props: IFilterControllerProps) => {
         setLocalFilterValue,
         setParamFilterValue,
         applyFilters,
+        syncLocalFiltersWithParamFilters,
         clearParamFilters,
         clearLocalFilters,
         clearFilters
