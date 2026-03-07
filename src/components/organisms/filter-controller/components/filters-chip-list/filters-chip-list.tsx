@@ -19,9 +19,9 @@ export const FiltersBadgesList = () => {
             </Button>
 
             {filters.map((filter) => {
-                if (!paramFilterObject[filter.id] && !filter.chipAlwaysVisible) return null;
+                if (!paramFilterObject[filter.id] && !filter.meta.chipAlwaysVisible) return null;
 
-                switch (filter.type) {
+                switch (filter.meta.type) {
                     case "text":
                         return <TextFilterChip key={filter.id} filter={filter} />;
                     case "number":

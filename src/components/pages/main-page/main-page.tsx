@@ -129,8 +129,7 @@ export default function MainPage() {
             if (filterMeta && col.id) {
                 filters.push({
                     id: col.id,
-                    type: filterMeta.type,
-                    chipAlwaysVisible: filterMeta.chipAlwaysVisible
+                    meta: filterMeta
                 });
             }
         });

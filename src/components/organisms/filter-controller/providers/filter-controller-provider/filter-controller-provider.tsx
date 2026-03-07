@@ -1,13 +1,11 @@
+import type { ITableFilterMeta } from "@/components/organisms/tanstack-table/hooks/use-tanstack-table";
 import type { PropsWithChildren } from "react";
 import { FilterControllerContext, useFilterControllerProvider } from "./filter-controller-provider.hooks";
 
 export interface IFilterInfo {
     id: string;
-    type: IFilterInfoType;
-    chipAlwaysVisible?: boolean;
+    meta: ITableFilterMeta;
 }
-
-export type IFilterInfoType = "text" | "number";
 
 export interface IFilterControllerProps {
     filters: IFilterInfo[];
