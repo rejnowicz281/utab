@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { useDebounce } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./button";
@@ -132,6 +133,14 @@ function TableNavigation({
     onPageSizeChange = () => {},
     ...props
 }: ITableNavigationProps) {
+    const [inputPageNumber, setInputPageNumber] = React.useState(String(currentPage + 1));
+
+    const debouncedPageNumber = useDebounce(Number(inputPageNumber), 1000);
+
+    React.useEffect(() => {
+        if (debouncedPageNumber > 0) onPageChange(debouncedPageNumber);
+    }, [debouncedPageNumber]);
+
     return (
         <div
             role="region"
@@ -156,11 +165,13 @@ function TableNavigation({
                 <div className="flex items-center gap-2">
                     <span>Page:</span>
                     <Input
-                        value={currentPage ? currentPage : ""}
+                        value={inputPageNumber}
                         onChange={(e) => {
-                            if (e.target.value === "") onPageChange(0);
-                            if (e.target.value) onPageChange(Number(e.target.value));
+                            if (Number(e.target.value) >= 0 && Number(e.target.value) <= totalPages) {
+                                setInputPageNumber(e.target.value);
+                            }
                         }}
+                        placeholder={String(currentPage)}
                         className="max-w-[50px]"
                     />
                     <span>of {totalPages}</span>
