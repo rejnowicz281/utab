@@ -27,7 +27,6 @@ declare module "@tanstack/react-table" {
 function useTanstackTable<T>(options: TableOptions<T>, id: string, tableVersion: number) {
     const [columnOrder, setColumnOrder] = useColumnOrderState(id, tableVersion, options);
     const [columnVisibility, setColumnVisibility] = useColumnVisibilityState(id, tableVersion, options);
-
     const { state: optionsState, ..._options } = options;
 
     const table = useReactTable({

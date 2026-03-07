@@ -82,7 +82,7 @@ export const TanstackTableReorderDialog = () => {
         setTempColumns([...defaultColumnOrder, "actions"]);
         const defaultVisibility: VisibilityState = {};
         options.columns?.forEach((col) => {
-            if (col.id !== "actions") defaultVisibility[String(col.id)] = true;
+            if (col.id !== "actions") defaultVisibility[String(col.id)] = !col.meta?.hiddenByDefault;
         });
         setTempVisibility(defaultVisibility);
     };

@@ -85,7 +85,10 @@ export default function MainPage() {
             accessor("referenceNumber", {
                 cell: ({ getValue }) => getValue(),
                 header: "Ref",
-                id: "Ref"
+                id: "Ref",
+                meta: {
+                    hiddenByDefault: true
+                }
             }),
 
             display({
