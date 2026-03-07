@@ -4,6 +4,7 @@ import { FilterControllerContext, useFilterControllerProvider } from "./filter-c
 export interface IFilterInfo {
     id: string;
     type: IFilterInfoType;
+    chipAlwaysVisible?: boolean;
 }
 
 export type IFilterInfoType = "text" | "number";

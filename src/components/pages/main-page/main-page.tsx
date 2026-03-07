@@ -25,7 +25,8 @@ export default function MainPage() {
                 id: "Invoice",
                 meta: {
                     filter: {
-                        type: "number"
+                        type: "number",
+                        chipAlwaysVisible: true
                     }
                 }
             }),
@@ -128,7 +129,8 @@ export default function MainPage() {
             if (filterMeta && col.id) {
                 filters.push({
                     id: col.id,
-                    type: filterMeta.type
+                    type: filterMeta.type,
+                    chipAlwaysVisible: filterMeta.chipAlwaysVisible
                 });
             }
         });

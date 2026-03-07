@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Search, type LucideProps } from "lucide-react";
+import { Search, X, type LucideProps } from "lucide-react";
 
 function InputDiv({ className, ...props }: React.ComponentProps<"div">) {
     return <div data-slot="input-div" className={cn("relative", className)} {...props} />;
@@ -18,14 +18,24 @@ function InputLeftIcon({ className, component, ...props }: LucideProps & { compo
     );
 }
 
-function Input({
-    className,
-    type,
-    variant = "default",
-    ...props
-}: React.ComponentProps<"input"> & {
-    variant?: "default" | "icon-left";
-}) {
+export interface IInputClearIcon extends LucideProps {
+    component?: React.ElementType;
+}
+function InputClearIcon({ className, component, ...props }: IInputClearIcon) {
+    const IconComponent = component || X;
+
+    return (
+        <IconComponent
+            {...props}
+            className={cn("h-4 w-4 absolute right-2.5 top-2.5 text-muted-foreground cursor-pointer", className)}
+        />
+    );
+}
+
+export type IInputProps = React.ComponentProps<"input"> & {
+    variant?: "default" | "icon-left" | "icon-right" | "icon-both";
+};
+function Input({ className, type, variant = "default", ...props }: IInputProps) {
     return (
         <input
             type={type}
@@ -35,6 +45,8 @@ function Input({
                 "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
                 "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
                 variant === "icon-left" && "pl-9",
+                variant === "icon-right" && "pr-9",
+                variant === "icon-both" && "pl-9 pr-9",
                 className
             )}
             {...props}
@@ -42,4 +54,4 @@ function Input({
     );
 }
 
-export { Input, InputDiv, InputLeftIcon };
+export { Input, InputClearIcon, InputDiv, InputLeftIcon };

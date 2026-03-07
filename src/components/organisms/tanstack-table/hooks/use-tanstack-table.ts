@@ -10,6 +10,7 @@ import { useCallback, useMemo, useState } from "react";
 
 export interface ITableFilterMeta {
     type: "text" | "number";
+    chipAlwaysVisible?: boolean;
 }
 
 export interface ExtendedColumnMeta<_TData, _TValue> {
