@@ -1,8 +1,7 @@
 import { type Row } from "@tanstack/react-table";
 
 import { Checkbox, type ICheckboxProps } from "@/components/ui/checkbox";
-
-import { useTanstackTableContext } from "../../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { useTanstackTableContext } from "../../../tanstack-table-provider";
 
 export const SelectRowCheckbox = ({ row, onCheckedChange, ...props }: { row: Row<any> } & ICheckboxProps) => {
     const { isRowSelected, toggleRowSelection } = useTanstackTableContext();

@@ -17,7 +17,7 @@ import { CSS } from "@dnd-kit/utilities";
 import type { ColumnOrderState, VisibilityState } from "@tanstack/react-table";
 import { Move } from "lucide-react";
 import { useState } from "react";
-import { useTanstackTableContext } from "../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { useTanstackTableContext } from "../../tanstack-table-provider";
 import { TanstackTableReorderButton } from "./reorder.button";
 
 function SortableColumnRow({ id, visible, onToggle }: { id: string; visible: boolean; onToggle: () => void }) {

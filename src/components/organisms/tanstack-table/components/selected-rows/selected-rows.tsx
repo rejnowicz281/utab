@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";
-import { useTanstackTableContext } from "../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+
+import { useTanstackTableContext } from "../../tanstack-table-provider";
 import { UnselectAllRowsButton } from "./components/unselect-all-rows-button";
 
 export const SelectedRows = ({ children, className, ...props }: ComponentProps<"div">) => {

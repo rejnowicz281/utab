@@ -1,5 +1,5 @@
 import { Button, type IButtonProps } from "@/components/ui/button";
-import { useTanstackTableContext } from "../../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { useTanstackTableContext } from "../../../tanstack-table-provider";
 
 type ITableActionButtonProps = IButtonProps;
 

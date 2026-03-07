@@ -1,6 +1,7 @@
+import { contextFactory } from "@/lib/context-factory";
 import type { TableOptions } from "@tanstack/react-table";
-import type { PropsWithChildren, ReactNode } from "react";
-import { TanstackTableContext, useTanstackTableProvider } from "./tanstack-table-provider.hooks";
+import type { ReactNode } from "react";
+import { useTanstackTable } from "./hooks/use-tanstack-table";
 
 export interface ITanstackTableProps<T> {
     options: TableOptions<T>; // Options for the useReactTable hook
@@ -19,15 +20,11 @@ export interface ITanstackTableProps<T> {
     };
 }
 
-export function TanstackTableProvider<T>({
-    children,
-    stickyLeft = true,
-    stickyRight = true,
-    tableVersion = 1,
-    selectedRowsActions,
-    ...props
-}: PropsWithChildren<ITanstackTableProps<T>>) {
-    const value = useTanstackTableProvider({ ...props, stickyLeft, stickyRight, tableVersion, selectedRowsActions });
+const [TanstackTableProvider, useTanstackTableContext] = contextFactory((props: ITanstackTableProps<any>) => {
+    const { stickyLeft = true, stickyRight = true, tableVersion = 1, ...rest } = props;
+    const value = useTanstackTable(rest.options, rest.id, tableVersion);
 
-    return <TanstackTableContext.Provider value={value}>{children}</TanstackTableContext.Provider>;
-}
+    return { ...value, ...rest, stickyLeft, stickyRight, tableVersion };
+}, "useTanstackTableContext must be used within a TanstackTableProvider");
+
+export { TanstackTableProvider, useTanstackTableContext };

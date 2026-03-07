@@ -5,11 +5,7 @@ import { SelectAllRowsCheckbox } from "./components/selected-rows/components/sel
 import { SelectRowCheckbox } from "./components/selected-rows/components/select-row-checkbot";
 import { SelectedRows } from "./components/selected-rows/selected-rows";
 import { TanstackTableNavigation } from "./components/table-navigation/tanstack-table-navigation";
-import {
-    TanstackTableProvider,
-    type ITanstackTableProps
-} from "./providers/tanstack-table-provider/tanstack-table-provider";
-import { useTanstackTableContext } from "./providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { TanstackTableProvider, useTanstackTableContext, type ITanstackTableProps } from "./tanstack-table-provider";
 
 function TanstackTable<T>(props: ITanstackTableProps<T>) {
     return (

@@ -1,7 +1,7 @@
 import { TableNavigation, type ITableNavigationProps } from "@/components/ui/table";
 import { useParamsPageNumber, useParamsPageSize } from "@/lib/utils";
 import { useSearchParams } from "react-router";
-import { useTanstackTableContext } from "../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { useTanstackTableContext } from "../../tanstack-table-provider";
 
 export const TanstackTableNavigation = (props: ITableNavigationProps) => {
     const { id, totalCount } = useTanstackTableContext();

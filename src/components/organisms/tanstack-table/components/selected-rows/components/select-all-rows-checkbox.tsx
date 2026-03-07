@@ -1,6 +1,5 @@
 import { Checkbox, type ICheckboxProps } from "@/components/ui/checkbox";
-
-import { useTanstackTableContext } from "../../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { useTanstackTableContext } from "../../../tanstack-table-provider";
 
 export const SelectAllRowsCheckbox = ({ onCheckedChange, ...props }: ICheckboxProps) => {
     const { toggleAllRowsSelection, table, selectedRows } = useTanstackTableContext();

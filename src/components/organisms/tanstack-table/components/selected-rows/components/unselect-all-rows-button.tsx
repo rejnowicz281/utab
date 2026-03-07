@@ -1,6 +1,6 @@
 import { Button, type IButtonProps } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { useTanstackTableContext } from "../../../providers/tanstack-table-provider/tanstack-table-provider.hooks";
+import { useTanstackTableContext } from "../../../tanstack-table-provider";
 
 export type IUnselectAllRowsButtonProps = IButtonProps;
 
