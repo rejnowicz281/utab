@@ -1,11 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Save } from "lucide-react";
-import { FiltersSheetContent } from "./filters-sheet-content";
+import { useFilterControllerContext } from "../../providers/filter-controller-provider/filter-controller-provider.hooks";
+import { FiltersSheetContent } from "./components/filters-sheet-content/filters-sheet-content";
 
 export const FiltersSheet = () => {
+    const { syncLocalFiltersWithParamFilters } = useFilterControllerContext();
+
     return (
-        <Sheet>
+        <Sheet
+            onOpenChange={(open) => {
+                if (!open) syncLocalFiltersWithParamFilters();
+            }}
+        >
             <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
                     <Save className="text-muted-foreground" size={18} />

@@ -1,3 +1,4 @@
+import { useFilterControllerContext } from "@/components/organisms/filter-controller/providers/filter-controller-provider/filter-controller-provider.hooks";
 import { Button } from "@/components/ui/button";
 import {
     SheetClose,
@@ -7,15 +8,18 @@ import {
     SheetHeader,
     SheetTitle
 } from "@/components/ui/sheet";
+import { FiltersAccordionList } from "./components/filters-accordion-list/filters-accordion-list";
 
 export const FiltersSheetContent = () => {
+    const { clearLocalFilters, applyFilters } = useFilterControllerContext();
+
     return (
         <SheetContent>
             <SheetHeader>
                 <SheetTitle>Filters</SheetTitle>
                 <SheetDescription>Filter, sort and manage your invoices</SheetDescription>
             </SheetHeader>
-            <div className="flex flex-col gap-4 px-4 overflow-y-auto"></div>
+            <FiltersAccordionList />
 
             <SheetFooter>
                 {/* <SaveTemplate
@@ -28,7 +32,7 @@ export const FiltersSheetContent = () => {
                     trigger={<Button>Save template</Button>}
                 /> */}
 
-                <Button>Save filter group</Button>
+                {/* <Button>Save filter group</Button> */}
 
                 {/* {currentTemplateInfo?.id && ( */}
                 {/* <Button
@@ -41,16 +45,14 @@ export const FiltersSheetContent = () => {
                     Delete filter group
                 </Button> */}
                 {/* )} */}
-                <Button
-                    variant="outline"
-                    // onClick={() => {
-                    //     setClippingFilter(undefined);
-                    // }}
-                >
-                    Reset filters
+                <Button onClick={applyFilters}>Apply filters</Button>
+                <Button variant="outline" onClick={clearLocalFilters}>
+                    Clear filters
                 </Button>
                 <SheetClose asChild>
-                    <Button variant="outline">Close & Apply</Button>
+                    <Button onClick={applyFilters} variant="outline">
+                        Close & Apply
+                    </Button>
                 </SheetClose>
             </SheetFooter>
         </SheetContent>
