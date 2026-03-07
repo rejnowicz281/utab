@@ -3,8 +3,10 @@ import { Input, InputClearIcon, InputDiv, type IInputClearIcon, type IInputProps
 import {
     FilterAccordion,
     FilterAccordionAnchor,
+    FilterAccordionCheckmark,
     FilterAccordionContent,
-    FilterAccordionTrigger
+    FilterAccordionTrigger,
+    FilterAccordionTriggerBody
 } from "../filter-accordion";
 import {
     FilterAccordionProvider,
@@ -19,7 +21,10 @@ export const TextFilterAccordion = ({ type, ...props }: IFilterAccordionProps & 
         <FilterAccordionProvider {...props}>
             <FilterAccordion>
                 <FilterAccordionTrigger>
-                    {filter.id}
+                    <FilterAccordionTriggerBody>
+                        <FilterAccordionCheckmark />
+                        {filter.id}
+                    </FilterAccordionTriggerBody>
                     <FilterAccordionAnchor />
                 </FilterAccordionTrigger>
                 <FilterAccordionContent>

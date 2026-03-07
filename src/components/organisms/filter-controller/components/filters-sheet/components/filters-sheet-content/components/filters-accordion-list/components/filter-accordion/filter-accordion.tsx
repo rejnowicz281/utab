@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
-import { ChevronDown, type LucideProps } from "lucide-react";
+import { CheckCircle2, ChevronDown, type LucideProps } from "lucide-react";
 import type { ComponentProps } from "react";
 import { useFilterAccordionContext } from "./providers/filter-accordion-provider/filter-accordion-provider.hooks";
 
@@ -47,3 +47,14 @@ export function FilterAccordionTrigger({
         />
     );
 }
+export function FilterAccordionTriggerBody({ className, ...props }: ComponentProps<"div">) {
+    return <div className={cn(className, "flex items-center gap-2")} {...props} />;
+}
+
+export const FilterAccordionCheckmark = (props: LucideProps) => {
+    const { value } = useFilterAccordionContext();
+
+    if (!value) return null;
+
+    return <CheckCircle2 size={18} stroke="oklch(72.3% 0.219 149.579)" {...props} />;
+};
