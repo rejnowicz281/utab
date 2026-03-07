@@ -22,7 +22,7 @@ export const useFilterChipProvider = (props: IFilterChipProps) => {
     const setPopoverOpen = (value: SetStateAction<boolean>) => {
         _setPopoverOpen(value);
 
-        if (value === false) syncValueWithParamFilterValue();
+        if (value === true) syncValueWithParamFilterValue();
     };
 
     const { paramFilterObject } = useFilterControllerContext();

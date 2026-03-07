@@ -11,7 +11,7 @@ import {
 import { FiltersAccordionList } from "./components/filters-accordion-list/filters-accordion-list";
 
 export const FiltersSheetContent = () => {
-    const { clearLocalFilters, applyFilters } = useFilterControllerContext();
+    const { clearFilters, applyFilters, localFilterObject, paramFilterObject } = useFilterControllerContext();
 
     return (
         <SheetContent>
@@ -45,13 +45,18 @@ export const FiltersSheetContent = () => {
                     Delete filter group
                 </Button> */}
                 {/* )} */}
-                <Button onClick={applyFilters}>Apply filters</Button>
-                <Button variant="outline" onClick={clearLocalFilters}>
-                    Clear filters
-                </Button>
                 <SheetClose asChild>
-                    <Button onClick={applyFilters} variant="outline">
-                        Close & Apply
+                    <Button
+                        disabled={JSON.stringify(localFilterObject) === JSON.stringify(paramFilterObject)}
+                        onClick={applyFilters}
+                    >
+                        Apply filters
+                    </Button>
+                </SheetClose>
+                <Button variant="outline">Save filter group</Button>
+                <SheetClose asChild>
+                    <Button onClick={clearFilters} variant="outline">
+                        Clear applied
                     </Button>
                 </SheetClose>
             </SheetFooter>

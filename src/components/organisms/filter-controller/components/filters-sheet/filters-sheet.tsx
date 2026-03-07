@@ -10,7 +10,7 @@ export const FiltersSheet = () => {
     return (
         <Sheet
             onOpenChange={(open) => {
-                if (!open) syncLocalFiltersWithParamFilters();
+                if (open) syncLocalFiltersWithParamFilters();
             }}
         >
             <SheetTrigger asChild>
