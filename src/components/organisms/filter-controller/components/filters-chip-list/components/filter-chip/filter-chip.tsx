@@ -12,16 +12,17 @@ export const FilterChipBadge = ({ className, ...props }: IBadgeProps) => {
 };
 
 export const FilterChipBadgeClearIcon: FC<LucideProps> = ({ onClick, ...props }) => {
-    const { filter, localFilterValue } = useFilterChipContext();
-    const { setLocalFilterValue } = useFilterControllerContext();
+    const { filter, paramFilterValue } = useFilterChipContext();
+    const { setLocalFilterValue, setParamFilterValue } = useFilterControllerContext();
 
-    if (!localFilterValue) return null;
+    if (!paramFilterValue) return null;
 
     return (
         <X
             onClick={(e) => {
                 onClick?.(e);
                 setLocalFilterValue(filter.id, null);
+                setParamFilterValue(filter.id, null);
             }}
             {...props}
         />

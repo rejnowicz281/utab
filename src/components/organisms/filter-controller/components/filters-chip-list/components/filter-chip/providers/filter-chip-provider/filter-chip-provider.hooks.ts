@@ -19,9 +19,10 @@ export const useFilterChipProvider = (props: IFilterChipProps) => {
 
     const [popoverOpen, setPopoverOpen] = useState(false);
 
-    const { localFilterObject } = useFilterControllerContext();
+    const { localFilterObject, paramFilterObject } = useFilterControllerContext();
 
     const localFilterValue = localFilterObject[filter.id] ?? null;
+    const paramFilterValue = paramFilterObject[filter.id] ?? null;
 
     const [value, setValue] = useState<IFilterObjectValue>(localFilterValue);
     const syncValueWithLocalFilterValue = () => {
@@ -44,6 +45,7 @@ export const useFilterChipProvider = (props: IFilterChipProps) => {
     return {
         ...props,
         localFilterValue,
+        paramFilterValue,
         popoverOpen,
         setPopoverOpen,
         value,
