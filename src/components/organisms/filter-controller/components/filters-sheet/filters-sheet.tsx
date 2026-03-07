@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Save } from "lucide-react";
-import { useFilterControllerContext } from "../../providers/filter-controller-provider/filter-controller-provider.hooks";
+import { useFilterControllerContext } from "../../filter-controller-provider";
 import { FiltersSheetContent } from "./components/filters-sheet-content/filters-sheet-content";
 
 export const FiltersSheet = () => {

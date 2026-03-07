@@ -1,11 +1,11 @@
-import { useFilterControllerContext } from "@/components/organisms/filter-controller/providers/filter-controller-provider/filter-controller-provider.hooks";
+import { useFilterControllerContext } from "@/components/organisms/filter-controller/filter-controller-provider";
 import { Badge, type IBadgeProps } from "@/components/ui/badge";
 import { Button, type IButtonProps } from "@/components/ui/button";
 import { Popover, PopoverContent, type IPopoverContentProps, type IPopoverProps } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import type { ComponentProps, FC } from "react";
-import { useFilterChipContext } from "./providers/filter-chip-provider/filter-chip-provider.hooks";
+import { useFilterChipContext } from "./filter-chip-provider";
 
 export const FilterChipBadge = ({ className, ...props }: IBadgeProps) => {
     return <Badge className={cn(className, "cursor-pointer")} variant="outline" {...props} />;

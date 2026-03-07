@@ -10,9 +10,9 @@ import {
 } from "../filter-accordion";
 import {
     FilterAccordionProvider,
+    useFilterAccordionContext,
     type IFilterAccordionProps
-} from "../providers/filter-accordion-provider/filter-accordion-provider";
-import { useFilterAccordionContext } from "../providers/filter-accordion-provider/filter-accordion-provider.hooks";
+} from "../filter-accordion-provider";
 
 export const TextFilterAccordion = ({ type, ...props }: IFilterAccordionProps & { type?: IInputProps["type"] }) => {
     const { filter } = props;

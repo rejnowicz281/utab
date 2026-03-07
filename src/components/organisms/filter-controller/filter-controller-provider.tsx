@@ -1,21 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import type { ITableFilterMeta } from "@/components/organisms/tanstack-table/hooks/use-tanstack-table";
+import { contextFactory } from "@/lib/context-factory";
+import { useState } from "react";
 
-import { useParamFilterObject, type IFilterObjectValue } from "../../hooks/use-param-filter-object";
-import type { IFilterControllerProps } from "./filter-controller-provider";
+import { useParamFilterObject, type IFilterObjectValue } from "./hooks/use-param-filter-object";
 
-export const FilterControllerContext = createContext<ReturnType<typeof useFilterControllerProvider> | undefined>(
-    undefined
-);
+export interface IFilterInfo {
+    id: string;
+    meta: ITableFilterMeta;
+}
 
-export const useFilterControllerContext = () => {
-    const context = useContext(FilterControllerContext);
+export interface IFilterControllerProps {
+    filters: IFilterInfo[];
+}
 
-    if (!context) throw new Error("useFilterControllerContext must be used within a FilterControllerProvider");
-
-    return context;
-};
-
-export const useFilterControllerProvider = (props: IFilterControllerProps) => {
+const [FilterControllerProvider, useFilterControllerContext] = contextFactory((props: IFilterControllerProps) => {
     const [paramFilterObject, setParamFilterObject] = useParamFilterObject();
 
     const [localFilterObject, setLocalFilterObject] = useState(paramFilterObject);
@@ -81,4 +79,6 @@ export const useFilterControllerProvider = (props: IFilterControllerProps) => {
         clearLocalFilters,
         clearFilters
     };
-};
+}, "useFilterControllerContext must be used within a FilterControllerProvider");
+
+export { FilterControllerProvider, useFilterControllerContext };

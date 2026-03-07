@@ -1,4 +1,4 @@
-import { useFilterControllerContext } from "@/components/organisms/filter-controller/providers/filter-controller-provider/filter-controller-provider.hooks";
+import { useFilterControllerContext } from "@/components/organisms/filter-controller/filter-controller-provider";
 import { TextFilterAccordion } from "./components/filter-accordion/variants/text-filter-accordion";
 
 export const FiltersAccordionList = () => {

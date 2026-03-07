@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
-import { useFilterControllerContext } from "../../providers/filter-controller-provider/filter-controller-provider.hooks";
+import { useFilterControllerContext } from "../../filter-controller-provider";
 import { TextFilterChip } from "./components/filter-chip/variants/text-filter-chip";
 
 export const FiltersBadgesList = () => {

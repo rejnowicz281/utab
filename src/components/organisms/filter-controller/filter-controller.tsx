@@ -2,10 +2,7 @@ import { FiltersBadgesList } from "./components/filters-chip-list/filters-chip-l
 import { FiltersSheet } from "./components/filters-sheet/filters-sheet";
 import { LocalSearch } from "./components/local-search/local-search";
 import { LocalSearchTooltip } from "./components/local-search/local-search-tooltip";
-import {
-    FilterControllerProvider,
-    type IFilterControllerProps
-} from "./providers/filter-controller-provider/filter-controller-provider";
+import { FilterControllerProvider, type IFilterControllerProps } from "./filter-controller-provider";
 
 export const FilterController = (props: IFilterControllerProps) => {
     return (

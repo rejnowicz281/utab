@@ -1,20 +1,15 @@
-import { createContext, useContext, useState, type SetStateAction } from "react";
+import type { IFilterInfo } from "@/components/organisms/filter-controller/filter-controller-provider";
+import { useState, type SetStateAction } from "react";
 
+import { useFilterControllerContext } from "@/components/organisms/filter-controller/filter-controller-provider";
 import type { IFilterObjectValue } from "@/components/organisms/filter-controller/hooks/use-param-filter-object";
-import { useFilterControllerContext } from "@/components/organisms/filter-controller/providers/filter-controller-provider/filter-controller-provider.hooks";
-import type { IFilterChipProps } from "./filter-chip-provider";
+import { contextFactory } from "@/lib/context-factory";
 
-export const FilterChipContext = createContext<ReturnType<typeof useFilterChipProvider> | undefined>(undefined);
+export interface IFilterChipProps {
+    filter: IFilterInfo;
+}
 
-export const useFilterChipContext = () => {
-    const context = useContext(FilterChipContext);
-
-    if (!context) throw new Error("useFilterChipContext must be used within a FilterChipProvider");
-
-    return context;
-};
-
-export const useFilterChipProvider = (props: IFilterChipProps) => {
+const [FilterChipProvider, useFilterChipContext] = contextFactory((props: IFilterChipProps) => {
     const { filter } = props;
 
     const [popoverOpen, _setPopoverOpen] = useState(false);
@@ -53,4 +48,6 @@ export const useFilterChipProvider = (props: IFilterChipProps) => {
         clearValue,
         applyValue
     };
-};
+}, "useFilterChipContext must be used within a FilterChipProvider");
+
+export { FilterChipProvider, useFilterChipContext };

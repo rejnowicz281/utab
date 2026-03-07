@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 import { CheckCircle2, ChevronDown, type LucideProps } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useFilterAccordionContext } from "./providers/filter-accordion-provider/filter-accordion-provider.hooks";
+import { useFilterAccordionContext } from "./filter-accordion-provider";
 
 export const FilterAccordion = (props: ComponentProps<"div">) => {
     return <div className="border-t" {...props} />;

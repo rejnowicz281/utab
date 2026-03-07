@@ -11,8 +11,7 @@ import {
     FilterChipPopoverContent,
     FilterChipPopoverFooter
 } from "../filter-chip";
-import { FilterChipProvider, type IFilterChipProps } from "../providers/filter-chip-provider/filter-chip-provider";
-import { useFilterChipContext } from "../providers/filter-chip-provider/filter-chip-provider.hooks";
+import { FilterChipProvider, useFilterChipContext, type IFilterChipProps } from "../filter-chip-provider";
 
 export const TextFilterChip = ({ type, ...props }: IFilterChipProps & { type?: IInputProps["type"] }) => {
     const { filter } = props;
