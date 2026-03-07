@@ -3,7 +3,7 @@ import { PopoverTrigger } from "@/components/ui/popover";
 
 import {
     FilterChipBadge,
-    FilterChipBadgeClearIcon,
+    FilterChipBadgeClearButton,
     FilterChipPopover,
     FilterChipPopoverApplyButton,
     FilterChipPopoverBody,
@@ -23,7 +23,7 @@ export const TextFilterChip = ({ type, ...props }: IFilterChipProps & { type?: I
                 <PopoverTrigger asChild>
                     <FilterChipBadge>
                         {filter.id}
-                        <FilterChipBadgeClearIcon />
+                        <FilterChipBadgeClearButton />
                     </FilterChipBadge>
                 </PopoverTrigger>
                 <FilterChipPopoverContent>

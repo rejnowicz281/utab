@@ -3,29 +3,40 @@ import { Badge, type IBadgeProps } from "@/components/ui/badge";
 import { Button, type IButtonProps } from "@/components/ui/button";
 import { Popover, PopoverContent, type IPopoverContentProps, type IPopoverProps } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { X, type LucideProps } from "lucide-react";
-import type { FC } from "react";
+import { X } from "lucide-react";
+import type { ComponentProps, FC } from "react";
 import { useFilterChipContext } from "./providers/filter-chip-provider/filter-chip-provider.hooks";
 
 export const FilterChipBadge = ({ className, ...props }: IBadgeProps) => {
     return <Badge className={cn(className, "cursor-pointer")} variant="outline" {...props} />;
 };
 
-export const FilterChipBadgeClearIcon: FC<LucideProps> = ({ onClick, ...props }) => {
-    const { filter, paramFilterValue } = useFilterChipContext();
+export const FilterChipBadgeClearButton: FC<ComponentProps<"button">> = ({ onClick, ...props }) => {
+    const { filter, paramFilterValue, setPopoverOpen } = useFilterChipContext();
     const { setLocalFilterValue, setParamFilterValue } = useFilterControllerContext();
 
     if (!paramFilterValue) return null;
 
     return (
-        <X
+        <button
+            className="cursor-pointer"
             onClick={(e) => {
+                e.stopPropagation();
+
                 onClick?.(e);
-                setLocalFilterValue(filter.id, null);
-                setParamFilterValue(filter.id, null);
+
+                setPopoverOpen(false);
             }}
             {...props}
-        />
+        >
+            <X
+                onClick={() => {
+                    setLocalFilterValue(filter.id, null);
+                    setParamFilterValue(filter.id, null);
+                }}
+                size={18}
+            />
+        </button>
     );
 };
 
