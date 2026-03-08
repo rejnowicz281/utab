@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useParamsPageNumber, useParamsPageSize } from "@/lib/utils";
 import { generateMockInvoices, type IInvoice } from "@/mock/mock-data";
-import { createColumnHelper, getCoreRowModel } from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
 import { ActivitySquare, Check, ChevronRight, Smile, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -209,10 +209,7 @@ export default function MainPage() {
                         }
                         options={{
                             data: paginatedData,
-                            columns,
-                            getCoreRowModel: getCoreRowModel(),
-                            columnResizeMode: "onChange",
-                            defaultColumn: { minSize: 150, maxSize: 800 }
+                            columns
                         }}
                         id="invoices-table"
                     />

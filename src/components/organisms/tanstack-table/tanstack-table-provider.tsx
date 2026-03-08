@@ -3,8 +3,11 @@ import type { TableOptions } from "@tanstack/react-table";
 import type { ReactNode } from "react";
 import { useTanstackTable } from "./hooks/use-tanstack-table";
 
+export interface ITanstackTableOptions<T> extends Omit<TableOptions<T>, "getCoreRowModel"> {
+    getCoreRowModel?: TableOptions<T>["getCoreRowModel"];
+}
 export interface ITanstackTableProps<T> {
-    options: TableOptions<T>; // Options for the useReactTable hook
+    options: ITanstackTableOptions<T>; // Options for the useReactTable hook
     id: string; // Unique ID for the table
     stickyLeft?: boolean; // Whether the first column is sticky
     stickyRight?: boolean; // Whether the last column is sticky

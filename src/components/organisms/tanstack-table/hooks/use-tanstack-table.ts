@@ -1,12 +1,13 @@
 import { useLocalState } from "@/lib/hooks";
 import {
+    getCoreRowModel,
     useReactTable,
     type ColumnOrderState,
     type RowData,
-    type TableOptions,
     type VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
+import type { ITanstackTableOptions } from "../tanstack-table-provider";
 
 export interface ITableFilterMeta {
     type: "text" | "number" | "date";
@@ -24,21 +25,27 @@ declare module "@tanstack/react-table" {
     interface ColumnMeta<TData extends RowData, TValue> extends ExtendedColumnMeta<TData, TValue> {}
 }
 
-function useTanstackTable<T>(options: TableOptions<T>, id: string, tableVersion: number) {
+function useTanstackTable<T>(options: ITanstackTableOptions<T>, id: string, tableVersion: number) {
     const [columnOrder, setColumnOrder] = useColumnOrderState(id, tableVersion, options);
     const [columnVisibility, setColumnVisibility] = useColumnVisibilityState(id, tableVersion, options);
     const { state: optionsState, ..._options } = options;
 
     const table = useReactTable({
-        ..._options,
+        defaultColumn: {
+            minSize: 150,
+            maxSize: 800
+        },
         state: {
             columnVisibility,
             columnOrder,
             ...optionsState
         },
         manualPagination: true,
+        columnResizeMode: "onChange",
+        getCoreRowModel: getCoreRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
-        onColumnOrderChange: setColumnOrder
+        onColumnOrderChange: setColumnOrder,
+        ..._options
     });
 
     const columnSizeVars = useMemo(() => {
@@ -122,7 +129,7 @@ function useSelectedRows<T>() {
     };
 }
 
-function useColumnVisibilityState<T>(id: string, tableVersion: number, options: TableOptions<T>) {
+function useColumnVisibilityState<T>(id: string, tableVersion: number, options: ITanstackTableOptions<T>) {
     const defaultColumnVisibility: VisibilityState = useMemo(() => {
         return options.columns.reduce((acc, col) => {
             acc[String(col.id)] = !col.meta?.hiddenByDefault;
@@ -140,7 +147,7 @@ function useColumnVisibilityState<T>(id: string, tableVersion: number, options: 
     );
 }
 
-function useColumnOrderState<T>(id: string, tableVersion: number, options: TableOptions<T>) {
+function useColumnOrderState<T>(id: string, tableVersion: number, options: ITanstackTableOptions<T>) {
     const defaultColumnOrder: ColumnOrderState = useMemo(() => {
         return options.columns.map((col) => String(col.id));
     }, [options.columns]);
